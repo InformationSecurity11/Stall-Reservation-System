@@ -47,8 +47,12 @@ const Login = () => {
     <div className="flex min-h-screen items-center justify-center bg-secondary">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-            <BookOpen className="h-6 w-6 text-primary-foreground" />
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
+            <img
+              src="/favicon.ico"
+              alt="Logo"
+              className="mx-auto mb-4 h-11 w-11 rounded-full"
+            />
           </div>
           <CardTitle className="text-2xl font-bold">Admin Portal</CardTitle>
           <CardDescription>Colombo International Bookfair</CardDescription>
