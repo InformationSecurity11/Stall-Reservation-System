@@ -1,37 +1,64 @@
-package com.yourcompany.profile.controller;
+package com.yourcompany.profile.service;
 
 import com.yourcompany.profile.dto.EditProfileRequest;
 import com.yourcompany.profile.model.UserProfile;
-import com.yourcompany.profile.service.UserProfileService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.yourcompany.profile.repository.UserProfileRepository;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/api/v1/profiles")
-public class ProfileController {
+import javax.transaction.Transactional; // Import if you need transaction management
 
-    private final UserProfileService userProfileService;
+@Service
+public class UserProfileServiceImpl implements UserProfileService {
 
-    public ProfileController(UserProfileService userProfileService) {
-        this.userProfileService = userProfileService;
+    private final UserProfileRepository userProfileRepository;
+
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
     }
 
     /**
-     * PUT endpoint to update a user profile by ID.
-     * Endpoint: PUT /api/v1/profiles/{id}
+     * Updates the profile for a user identified by their ID.
+     * @param userId The ID of the user whose profile to update.
+     * @param request The DTO containing the new profile details.
+     * @return The updated UserProfile.
+     * @throws RuntimeException if the profile is not found.
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<UserProfile> updateProfile(
-            @PathVariable Long id,
-            @RequestBody EditProfileRequest request) {
+    @Override
+    @Transactional // Good practice for modification operations
+    public UserProfile editProfile(Long userId, EditProfileRequest request) {
+        // 1. Find the existing profile by ID
+        UserProfile existingProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Profile not found for ID: " + userId));
 
-        try {
-            // Note: In a real application, the ID would usually come from the
-            // JWT token (security context) and not directly from the path variable.
-            UserProfile updatedProfile = userProfileService.editProfile(id, request);
-            return ResponseEntity.ok(updatedProfile);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build(); // Or other appropriate error handling
+        // 2. Apply updates from the request DTO
+        if (request.getBusinessName() != null) {
+            existingProfile.setBusinessName(request.getBusinessName());
         }
+        if (request.getContactPerson() != null) {
+            existingProfile.setContactPerson(request.getContactPerson());
+        }
+        if (request.getPhoneNumber() != null) {
+            existingProfile.setPhoneNumber(request.getPhoneNumber());
+        }
+
+        // 3. Save the updated profile back to the database
+        return userProfileRepository.save(existingProfile);
+    }
+
+    /**
+     * Deletes the profile for a user identified by their ID.
+     * @param userId The ID of the user whose profile to delete.
+     * @throws RuntimeException if the profile is not found.
+     */
+    @Override
+    @Transactional
+    public void deleteProfile(Long userId) {
+        // Option 1: Check existence before deleting to provide specific feedback
+        if (!userProfileRepository.existsById(userId)) {
+            throw new RuntimeException("Profile not found for ID: " + userId);
+        }
+
+        // 2. Delete the profile
+        userProfileRepository.deleteById(userId);
     }
 }

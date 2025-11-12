@@ -42,6 +42,19 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userProfileRepository.save(existingProfile);
     }
 
-    // You would also have an interface UserProfileService with the method signature
-    // UserProfile editProfile(Long userId, EditProfileRequest request);
+    /**
+     * Deletes the profile for a user identified by their ID.
+     * @param userId The ID of the user whose profile to delete.
+     * @throws RuntimeException if the profile is not found.
+     */
+    @Override
+    public void deleteProfile(Long userId) {
+        // 1. Check if the profile exists before attempting to delete
+        if (!userProfileRepository.existsById(userId)) {
+            throw new RuntimeException("Profile not found for ID: " + userId);
+        }
+
+        // 2. Delete the profile by ID
+        userProfileRepository.deleteById(userId);
+    }
 }
