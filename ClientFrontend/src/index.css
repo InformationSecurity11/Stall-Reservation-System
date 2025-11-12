@@ -3,3 +3,67 @@
 @tailwind utilities;
 
 /* Add global styles as needed. Avoid using @apply with non-existent classes. */
+
+:root {
+	/* Neutral background / foreground (modern dark theme defaults) */
+	/* Background is an RGB triple used with rgb(var(--background)) so opacity utilities work */
+	--background: 212 212 216; /*#d6d3d1 - user requested light tone */
+	--foreground: 0 0 0; /* near-white for text */
+	--muted: 16 18 28; /* slightly lighter than background for surfaces */
+	--muted-foreground: 148 163 184; /* slate-400 */
+	--card: 18 22 36; /* card background */
+	--card-foreground: 238 242 255;
+	--border: 36 42 60; /* darker border */
+
+	/* Brand */
+		--primary: 16 185 129; /* emerald-500 */
+	--primary-foreground: 255 255 255;
+
+	/* Accent */
+	--olive: 101 163 13; /* lime-700-ish */
+}
+
+/* Utility helpers for using the RGB variables with Tailwind opacity utilities */
+.bg-background { background-color: rgb(var(--background)); }
+.text-foreground { color: rgb(var(--foreground)); }
+.bg-card { background-color: rgb(var(--card)); }
+.border-border { border-color: rgb(var(--border)); }
+
+/* Modern page background: layered radial orbs + subtle gradient. Apply to body or a top-level wrapper. */
+html, body, #root {
+	height: 100%;
+}
+body {
+	background-color: rgb(var(--background));
+	background-image:
+		radial-gradient(800px 400px at 10% 20%, rgba(var(--primary), 0.06), transparent 18%),
+		radial-gradient(600px 300px at 90% 80%, rgba(238, 10, 10, 0.05), transparent 20%),
+		linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)),
+		url('/modern-bg.svg');
+	background-attachment: fixed;
+	background-size: cover;
+	color: rgb(var(--foreground));
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Decorative orb elements you can include in pages for accent (optional) */
+.orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(60px);
+	opacity: 0.7;
+	transform: translate3d(0,0,0);
+	pointer-events: none;
+}
+.orb--green { width: 420px; height: 420px; background: rgba(var(--primary), 0.08); left: -80px; top: -100px; }
+.orb--violet { width: 360px; height: 360px; background: rgba(99,102,241,0.06); right: -60px; bottom: -120px; }
+
+/* subtle slow float animation */
+@keyframes float-slow {
+	0% { transform: translateY(0); }
+	50% { transform: translateY(-18px); }
+	100% { transform: translateY(0); }
+}
+.orb { animation: float-slow 10s ease-in-out infinite; }
+

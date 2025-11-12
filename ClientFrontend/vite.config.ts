@@ -4,8 +4,10 @@ import path from 'path'
 
 export default defineConfig(({ mode }) => ({
   server: {
-    host: '::',
-    port: 5173,
+  host: '::',
+  port: 8080,
+  // fail if 8080 is taken so we don't silently pick another port
+  strictPort: true,
   },
   plugins: [react()].filter(Boolean),
   resolve: {
