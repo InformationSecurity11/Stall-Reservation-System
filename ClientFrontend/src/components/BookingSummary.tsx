@@ -111,9 +111,8 @@ export default function BookingSummary({
                   </div>
                   <Button
                     variant="ghost"
-                    size="icon-sm"
                     onClick={() => onRemoveStall(stall.id)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-destructive/10 hover:text-destructive shrink-0"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-destructive/10 hover:text-destructive shrink-0 p-1"
                   >
                     <X className="w-4 h-4" />
                   </Button>

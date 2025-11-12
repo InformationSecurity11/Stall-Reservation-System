@@ -21,6 +21,11 @@
 
 	/* Accent */
 	--olive: 101 163 13; /* lime-700-ish */
+
+	/* Custom neutral token requested by user (rgb(115,115,115)) */
+	--neutral-600: 115 115 115;
+
+	--neutral-100: 212 212 216;
 }
 
 /* Utility helpers for using the RGB variables with Tailwind opacity utilities */
@@ -28,6 +33,11 @@
 .text-foreground { color: rgb(var(--foreground)); }
 .bg-card { background-color: rgb(var(--card)); }
 .border-border { border-color: rgb(var(--border)); }
+
+/* new neutral helpers */
+.bg-neutral-600 { background-color: rgb(var(--neutral-600)); }
+.text-neutral-600 { color: rgb(var(--neutral-600)); }
+.border-neutral-600 { border-color: rgb(var(--neutral-600)); }
 
 /* Modern page background: layered radial orbs + subtle gradient. Apply to body or a top-level wrapper. */
 html, body, #root {

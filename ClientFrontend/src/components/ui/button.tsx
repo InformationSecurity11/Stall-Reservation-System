@@ -19,10 +19,11 @@ export interface ButtonProps
 }
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
-  default: "bg-primary text-white shadow-sm",
+  
+  default: "bg-neutral-600 text-white shadow-sm",
   outline: "bg-transparent border border-border text-foreground",
   ghost: "bg-transparent hover:bg-muted/30 text-foreground",
-  gradient: "bg-gradient-to-r from-primary via-secondary to-olive text-white shadow-md",
+  gradient: "bg-gradient via-secondary to-olive text-white shadow-md",
   secondary: "bg-secondary text-white shadow-sm",
   link: "text-primary underline-offset-4 hover:underline bg-transparent",
 }

@@ -51,25 +51,53 @@ export default function Footer() {
     { icon: Youtube, href: "#", label: "YouTube" },
   ]
 
+  // per-stat accent styles (vibrant, user-attractive colors)
+  const statStyles = [
+    {
+      bg: 'bg-[rgba(124,58,237,0.08)]',
+      border: 'border-[rgba(124,58,237,0.18)]',
+      iconBg: 'bg-[rgba(124,58,237,0.12)]',
+      iconColor: 'text-[rgb(124,58,237)]',
+    }, // purple
+    {
+      bg: 'bg-[rgba(16,185,129,0.08)]',
+      border: 'border-[rgba(16,185,129,0.18)]',
+      iconBg: 'bg-[rgba(16,185,129,0.12)]',
+      iconColor: 'text-[rgb(16,185,129)]',
+    }, // green
+    {
+      bg: 'bg-[rgba(245,158,11,0.08)]',
+      border: 'border-[rgba(245,158,11,0.18)]',
+      iconBg: 'bg-[rgba(245,158,11,0.12)]',
+      iconColor: 'text-[rgb(245,158,11)]',
+    }, // amber
+    {
+      bg: 'bg-[rgba(236,72,153,0.08)]',
+      border: 'border-[rgba(236,72,153,0.18)]',
+      iconBg: 'bg-[rgba(236,72,153,0.12)]',
+      iconColor: 'text-[rgb(236,72,153)]',
+    }, // pink
+  ]
+
   return (
-    <footer className="relative bg-muted/30 border-t border-border overflow-hidden">
+    <footer className="relative  border-t border-border overflow-hidden">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[rgba(255,102,163,0.08)] rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-[rgba(6,182,212,0.06)] rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
       </div>
 
       {/* Stats Bar */}
-      <div className="border-b border-border bg-background/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-8">
+      <div className="border-b border-border bg-[rgba(255,255,255,0.03)] backdrop-blur-sm">
+        <div className="w-full px-10 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-background to-muted/30 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-105"
+                className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${statStyles[idx]?.bg} ${statStyles[idx]?.border}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-primary" />
+                <div className={`w-12 h-12 rounded-xl ${statStyles[idx]?.iconBg} flex items-center justify-center`}> 
+                  <stat.icon className={`${statStyles[idx]?.iconColor} w-6 h-6`} />
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-foreground">{stat.value}</p>
@@ -81,23 +109,23 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-16">
+  {/* Main Footer Content */}
+  <div className="w-full px-2 py-8 bg-[linear-gradient(90deg,rgba(124,58,237,0.04),rgba(16,185,129,0.04),rgba(245,158,11,0.04),rgba(236,72,153,0.04))] rounded-t-xl backdrop-blur-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary via-secondary to-olive flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] bg-clip-text text-transparent">
                   BookFair
                 </h3>
-                <p className="text-xs text-muted-foreground">Reservation System</p>
+                <p className="text-xs text-foreground">Reservation System</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-foreground leading-relaxed">
               Sri Lanka's premier book fair reservation platform. Secure your exhibition space
               with confidence.
             </p>
@@ -135,13 +163,13 @@ export default function Footer() {
 
           {/* Quick Links Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold text-foreground">Quick Links</h4>
+            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(16,185,129)] to-[rgb(245,158,11)] bg-clip-text text-transparent">Quick Links</h4>
             <nav className="space-y-3">
               {quickLinks.map((link, idx) => (
                 <Link
                   key={idx}
                   to={link.path}
-                  className="block text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-300"
+                  className="block text-sm text-foreground hover:text-[rgb(16,185,129)] hover:translate-x-1 transition-all duration-300"
                 >
                   {link.name}
                 </Link>
@@ -151,13 +179,13 @@ export default function Footer() {
 
           {/* Resources Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold text-foreground">Resources</h4>
+            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(245,158,11)] to-[rgb(236,72,153)] bg-clip-text text-transparent">Resources</h4>
             <nav className="space-y-3">
               {resources.map((link, idx) => (
                 <Link
                   key={idx}
                   to={link.path}
-                  className="block text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-300"
+                  className="block text-sm text-foreground hover:text-[rgb(245,158,11)] hover:translate-x-1 transition-all duration-300"
                 >
                   {link.name}
                 </Link>
@@ -167,8 +195,8 @@ export default function Footer() {
 
           {/* Newsletter Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold text-foreground">Stay Updated</h4>
-            <p className="text-sm text-muted-foreground">
+            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(236,72,153)] to-[rgb(124,58,237)] bg-clip-text text-transparent">Stay Updated</h4>
+            <p className="text-sm text-foreground">
               Subscribe to get event updates and exclusive offers.
             </p>
             <div className="space-y-3">

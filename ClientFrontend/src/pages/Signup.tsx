@@ -83,12 +83,12 @@ export function Signup() {
   const strength = passwordStrength(formData.password)
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-card to-background p-4 relative overflow-hidden py-12">
+  <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(135deg,rgba(124,58,237,0.06),rgba(16,185,129,0.035),rgba(236,72,153,0.06))] p-4 relative overflow-hidden py-12">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-olive/20 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
+  <div className="absolute top-20 left-10 w-72 h-72 bg-[rgba(124,58,237,0.16)] rounded-full filter blur-3xl animate-pulse"></div>
+  <div className="absolute bottom-20 right-10 w-96 h-96 bg-[rgba(16,185,129,0.12)] rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[rgba(236,72,153,0.12)] rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
       </div>
 
       {/* Dot Pattern Overlay */}
@@ -99,16 +99,16 @@ export function Signup() {
         <div className="flex justify-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-olive rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary via-secondary to-olive p-0.5 group-hover:scale-110 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] p-0.5 group-hover:scale-110 transition-transform duration-300">
                 <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
-                  <Sparkles className="w-7 h-7 text-primary group-hover:text-secondary transition-colors duration-300" />
+                  <Sparkles className="w-7 h-7 text-[rgb(124,58,237)] group-hover:text-[rgb(16,185,129)] transition-colors duration-300" />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-2xl text-foreground tracking-tight leading-none">
-                BookFair<span className="text-primary">Hub</span>
+              <div className="flex flex-col">
+              <span className="font-bold text-2xl tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+                BookFair <span className="text-[rgb(16,185,129)]">Hub</span>
               </span>
               <span className="text-xs text-muted-foreground font-medium tracking-wider uppercase">
                 Colombo 2026
@@ -117,9 +117,9 @@ export function Signup() {
           </Link>
         </div>
 
-        <Card className="border-2 shadow-2xl">
+  <Card className="border-2 border-[rgba(124,58,237,0.08)] shadow-2xl">
           <CardHeader className="space-y-3 pb-6">
-            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
               Create Your Account
             </CardTitle>
             <CardDescription className="text-center text-base">
@@ -144,7 +144,7 @@ export function Signup() {
                     First Name
                   </Label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
                     <Input
                       id="firstName"
                       name="firstName"
@@ -186,7 +186,7 @@ export function Signup() {
                   Email Address
                 </Label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="email"
                     name="email"
@@ -207,7 +207,7 @@ export function Signup() {
                   Phone Number
                 </Label>
                 <div className="relative group">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="phone"
                     name="phone"
@@ -228,7 +228,7 @@ export function Signup() {
                   Password
                 </Label>
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="password"
                     name="password"
@@ -278,7 +278,7 @@ export function Signup() {
                   Confirm Password
                 </Label>
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -338,14 +338,14 @@ export function Signup() {
                   I agree to the{" "}
                   <Link
                     to="/terms"
-                    className="font-semibold text-primary hover:text-primary/80 transition-colors duration-300 hover:underline underline-offset-4"
+                    className="font-semibold text-[rgb(16,185,129)] hover:text-[rgb(16,185,129)]/80 transition-colors duration-300 hover:underline underline-offset-4"
                   >
                     Terms & Conditions
                   </Link>{" "}
                   and{" "}
                   <Link
                     to="/privacy"
-                    className="font-semibold text-primary hover:text-primary/80 transition-colors duration-300 hover:underline underline-offset-4"
+                    className="font-semibold text-[rgb(16,185,129)] hover:text-[rgb(16,185,129)]/80 transition-colors duration-300 hover:underline underline-offset-4"
                   >
                     Privacy Policy
                   </Link>
@@ -357,7 +357,7 @@ export function Signup() {
                 type="submit"
                 variant="gradient"
                 size="lg"
-                className="w-full group"
+                className="w-full group bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
                 disabled={loading || !acceptTerms}
               >
                 {loading ? (
@@ -386,7 +386,7 @@ export function Signup() {
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="font-semibold text-primary hover:text-primary/80 transition-colors duration-300 hover:underline underline-offset-4"
+                className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] hover:opacity-90 transition-all duration-300 hover:underline underline-offset-4"
               >
                 Sign in
               </Link>

@@ -45,21 +45,21 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-neutral-600/20",
         isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg"
-          : "bg-transparent"
+          ? "bg-neutral-600/80 backdrop-blur-xl border-b border-border shadow-lg"
+          : "bg-neutral-600/20"
       )}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary via-secondary to-olive flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] bg-clip-text text-muted-foreground">
                 BookFair
               </h1>
               <p className="text-xs text-muted-foreground -mt-1">Reservation System</p>
@@ -76,7 +76,7 @@ export default function Header() {
                 >
                   {link.name}
                   {location.pathname === link.path && (
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] rounded-full" />
                   )}
                 </Button>
               </Link>
@@ -100,7 +100,11 @@ export default function Header() {
                 <Button variant="ghost" onClick={() => navigate("/login")}>
                   Login
                 </Button>
-                <Button variant="gradient" onClick={() => navigate("/signup")}>
+                <Button
+                  variant="gradient"
+                  className="bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
+                  onClick={() => navigate("/signup")}
+                >
                   Sign Up
                 </Button>
               </>
