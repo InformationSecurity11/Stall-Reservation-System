@@ -57,4 +57,36 @@ public class UserProfileServiceImpl implements UserProfileService {
         // 2. Delete the profile by ID
         userProfileRepository.deleteById(userId);
     }
+
+    package com.yourcompany.profile.service;
+
+import com.yourcompany.profile.dto.EditProfileRequest;
+import com.yourcompany.profile.model.UserProfile;
+import com.yourcompany.profile.repository.UserProfileRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserProfileServiceImpl implements UserProfileService {
+
+    private final UserProfileRepository userProfileRepository;
+
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
+    }
+
+    // ... (editProfile and deleteProfile methods remain here)
+
+    /**
+     * Retrieves the profile for a user identified by their ID.
+     * @param userId The ID of the user whose profile to retrieve.
+     * @return The UserProfile.
+     * @throws RuntimeException if the profile is not found.
+     */
+    @Override
+    public UserProfile viewProfile(Long userId) {
+        // Use findById and orElseThrow to handle the case where the profile doesn't exist.
+        return userProfileRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Profile not found for ID: " + userId));
+    }
+}
 }
