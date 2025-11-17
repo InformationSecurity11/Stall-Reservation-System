@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import CustomButton2 from "@/components/ui/CustomButton2"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -83,18 +84,8 @@ export function Signup() {
   const strength = passwordStrength(formData.password)
 
   return (
-  <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(135deg,rgba(124,58,237,0.06),rgba(16,185,129,0.035),rgba(236,72,153,0.06))] p-4 relative overflow-hidden py-12">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-  <div className="absolute top-20 left-10 w-72 h-72 bg-[rgba(124,58,237,0.16)] rounded-full filter blur-3xl animate-pulse"></div>
-  <div className="absolute bottom-20 right-10 w-96 h-96 bg-[rgba(16,185,129,0.12)] rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[rgba(236,72,153,0.12)] rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
-      </div>
-
-      {/* Dot Pattern Overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50"></div>
-
-      <div className="w-full max-w-2xl relative z-10 animate-fade-in">
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6 py-12">
+      <div className="w-full max-w-2xl">
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 group">
@@ -117,7 +108,7 @@ export function Signup() {
           </Link>
         </div>
 
-  <Card className="border-2 border-[rgba(124,58,237,0.08)] shadow-2xl">
+  <Card className="bg-white p-6 rounded-lg shadow">
           <CardHeader className="space-y-3 pb-6">
             <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
               Create Your Account
@@ -353,25 +344,22 @@ export function Signup() {
               </div>
 
               {/* Submit Button */}
-              <Button
+              <CustomButton2
                 type="submit"
-                variant="gradient"
-                size="lg"
-                className="w-full group bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
+                className="w-full group"
                 disabled={loading || !acceptTerms}
               >
                 {loading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Creating account...
+                    <span className="ml-2">Creating account...</span>
                   </>
                 ) : (
                   <>
-                    Create Account
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    <span>Create Account</span>
                   </>
                 )}
-              </Button>
+              </CustomButton2>
 
               {/* Security Note */}
               <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground pt-2">
