@@ -43,12 +43,12 @@ import { useToast } from '@/hooks/use-toast';
 
 // Mock data
 const mockStalls = [
-  { id: 'S-001', size: 'Small', status: 'Available' },
-  { id: 'S-002', size: 'Small', status: 'Reserved' },
-  { id: 'S-003', size: 'Medium', status: 'Available' },
-  { id: 'S-004', size: 'Medium', status: 'Reserved' },
-  { id: 'S-005', size: 'Large', status: 'Available' },
-  { id: 'S-006', size: 'Large', status: 'Reserved' },
+  { id: 'S-001', size: 'Small', price: 500, status: 'Available' },
+  { id: 'S-002', size: 'Small', price: 500, status: 'Reserved' },
+  { id: 'S-003', size: 'Medium', price: 750, status: 'Available' },
+  { id: 'S-004', size: 'Medium', price: 750, status: 'Reserved' },
+  { id: 'S-005', size: 'Large', price: 1000, status: 'Available' },
+  { id: 'S-006', size: 'Large', price: 1000, status: 'Reserved' },
   { id: 'S-007', size: 'Small', status: 'Unavailable' },
   { id: 'S-008', size: 'Medium', status: 'Available' },
 ];
@@ -265,6 +265,7 @@ const Stalls = () => {
                 <TableHead>Stall ID</TableHead>
                 <TableHead>Size</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Price</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -274,6 +275,7 @@ const Stalls = () => {
                   <TableCell className="font-medium">{stall.id}</TableCell>
                   <TableCell>{stall.size}</TableCell>
                   <TableCell>{getStatusBadge(stall.status)}</TableCell>
+                  <TableCell className="text-right">{stall.price}</TableCell>
                   <TableCell className="text-right">
                     {stall.status === 'Available' && (
                       <Button
