@@ -4,42 +4,42 @@ import com.Auth.Auth_Service.dto.RegisterReqDTO;
 import com.Auth.Auth_Service.dto.RegisterRespDTO;
 import com.Auth.Auth_Service.entity.UserEntity;
 import com.Auth.Auth_Service.repo.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthService(UserRepository userRepository , PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
 
     public RegisterRespDTO registerUser(RegisterReqDTO request) {
         // Check if user already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("User already exists with email: " + request.getEmail());
+            return new RegisterRespDTO(null, "User already exists with email: " + request.getEmail());
         }
+        var userData = this.createUser(request);
+        if(userData.getId()==null)  return new RegisterRespDTO(null, "Internal Error Happened..!");
 
-        // Encode password
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        return new RegisterRespDTO(String.format("user registered under id %s", userData.getId()),null);
+    }
 
-        // Build entity
-        UserEntity user = UserEntity.builder()
-                .email(request.getEmail())
-                .password(encodedPassword)
-                .role(request.getRole())
-                .companyName(request.getCompanyName())
-                .contactNumber(request.getContactNumber())
+    public UserEntity createUser(RegisterReqDTO userData){
+        UserEntity newUser = UserEntity.builder()
+                .email(userData.getEmail())
+                .password(passwordEncoder.encode(userData.getPassword()))
+                .owner(userData.getOwner())
+                .role(userData.getRole())
+                .companyName(userData.getCompanyName())
+                .contactNumber(userData.getContactNumber())
                 .build();
-
-        // Save user
-        userRepository.save(user);
-
-        // Return response
-        return RegisterRespDTO.builder()
-                .message("User registered successfully")
-                .email(user.getEmail())
-                .build();
+        return userRepository.save(newUser);
     }
 }
