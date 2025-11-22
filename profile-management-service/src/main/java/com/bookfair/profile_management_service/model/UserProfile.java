@@ -1,4 +1,4 @@
-package com.bookfair.user_profile_service.model;
+package com.bookfair.profile_management_service.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
