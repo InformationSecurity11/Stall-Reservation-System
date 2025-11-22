@@ -16,5 +16,6 @@ public class RegisterReqDTO {
     private String role;
     private String companyName;
     private String contactNumber;
+    private String owner;
 
 }
