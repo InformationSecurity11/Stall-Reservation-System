@@ -40,6 +40,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { set } from 'date-fns';
 
 // Mock data
 const mockStalls = [
@@ -68,11 +69,13 @@ const Stalls = () => {
 
   // Create form
   const [newId, setNewId] = useState('');
+  const [newPrice, setNewPrice] = useState<number | null>(null);
   const [newSize, setNewSize] = useState<string>('Small');
   const [newStatus, setNewStatus] = useState<string>('Available');
 
   // Edit form
   const [editId, setEditId] = useState<string | null>(null);
+  const [editPrice, setEditPrice] = useState<number | null>(null);
   const [editSize, setEditSize] = useState<string>('Small');
   const [editStatus, setEditStatus] = useState<string>('Available');
 
@@ -84,6 +87,7 @@ const Stalls = () => {
     const s = stalls.find((x) => x.id === selectedStall);
     if (s) {
       setEditId(s.id);
+      setEditPrice(s.price);
       setEditSize(s.size);
       setEditStatus(s.status);
       setShowEditDialog(true);
@@ -99,10 +103,11 @@ const Stalls = () => {
       toast({ title: 'Duplicate ID', description: 'A stall with this ID already exists.' });
       return;
     }
-    setStalls([...stalls, { id: newId, size: newSize, status: newStatus }]);
+    setStalls([...stalls, { id: newId, size: newSize, price: newPrice, status: newStatus }]);
     toast({ title: 'Stall created', description: `Stall ${newId} created.` });
     setShowCreateDialog(false);
     setNewId('');
+    setNewPrice(0);
     setNewSize('Small');
     setNewStatus('Available');
   };
@@ -307,6 +312,14 @@ const Stalls = () => {
               <Input value={newId} onChange={(e) => setNewId(e.target.value)} />
             </div>
             <div>
+              <Label>Price</Label>
+              <Input
+                type="number"
+                value={newPrice}
+                onChange={(e) => setNewPrice(Number(e.target.value))}
+              />
+            </div>
+            <div>
               <Label>Size</Label>
               <Select value={newSize} onValueChange={setNewSize}>
                 <SelectTrigger>
@@ -353,6 +366,14 @@ const Stalls = () => {
             <div>
               <Label>Stall ID</Label>
               <Input value={editId ?? ''} disabled />
+            </div>
+            <div>
+              <Label>Price</Label>
+              <Input
+                type="number"
+                value={editPrice ?? ''}
+                onChange={(e) => setEditPrice(Number(e.target.value))}
+              />
             </div>
             <div>
               <Label>Size</Label>
