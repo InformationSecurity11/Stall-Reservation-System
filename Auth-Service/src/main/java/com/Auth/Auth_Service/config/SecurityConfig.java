@@ -23,7 +23,9 @@ public class SecurityConfig {
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/api/auth/logout",
-                                "/api/auth/user/delete/**").permitAll() // public endpoints
+                                "/api/auth/user/delete/**",
+                                "/api/auth/user/details",
+                                "/api/auth/users/all" ).permitAll() // public endpoints
                         .anyRequest().authenticated() // all other endpoints require authentication
                 );
 
