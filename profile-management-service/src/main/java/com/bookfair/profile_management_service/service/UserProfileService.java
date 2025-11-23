@@ -30,4 +30,25 @@ public class UserProfileService {
         profile.getLiteraryGenres().addAll(genres);
         return repository.save(profile);
     }
+    
+    public UserProfile updateProfile(String userId, UserProfile updatedData) {
+        
+        UserProfile existingProfile = getProfile(userId);
+
+        
+        if (updatedData.getFullName() != null) existingProfile.setFullName(updatedData.getFullName());
+        if (updatedData.getEmail() != null) existingProfile.setEmail(updatedData.getEmail());
+        if (updatedData.getCompanyName() != null) existingProfile.setCompanyName(updatedData.getCompanyName());
+        if (updatedData.getAddress() != null) existingProfile.setAddress(updatedData.getAddress());
+        if (updatedData.getPhoneNumber() != null) existingProfile.setPhoneNumber(updatedData.getPhoneNumber());
+        
+        
+        return repository.save(existingProfile);
+    }
+
+    
+    public void deleteProfile(String userId) {
+        UserProfile profile = getProfile(userId);
+        repository.delete(profile);
+    }
 }

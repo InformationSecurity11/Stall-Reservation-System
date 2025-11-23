@@ -1,4 +1,4 @@
-package com.bookfair.profile_management_service.controller; // Updated Package
+package com.bookfair.profile_management_service.controller; 
 
 import com.bookfair.profile_management_service.model.UserProfile;
 import com.bookfair.profile_management_service.service.UserProfileService;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/profiles") // Changed URL to match service name better
+@RequestMapping("/api/profiles") 
 @CrossOrigin(origins = "*")
 public class UserProfileController {
 
@@ -32,5 +32,18 @@ public class UserProfileController {
     @GetMapping
     public List<UserProfile> getAllProfiles() {
         return service.getAllProfiles();
+    }
+
+    
+    @PutMapping("/{userId}")
+    public UserProfile updateProfile(@PathVariable String userId, @RequestBody UserProfile profile) {
+        return service.updateProfile(userId, profile);
+    }
+
+    
+    @DeleteMapping("/{userId}")
+    public String deleteProfile(@PathVariable String userId) {
+        service.deleteProfile(userId);
+        return "User profile for " + userId + " has been deleted successfully.";
     }
 }
