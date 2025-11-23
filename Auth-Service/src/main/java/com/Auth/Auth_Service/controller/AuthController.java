@@ -68,4 +68,39 @@ public class AuthController {
                     .body("Error deleting user: " + e.getMessage());
         }
     }
+
+    // Get user by email
+    @GetMapping("/user/details")
+    public ResponseEntity<?> getUser(
+            @RequestParam String email,
+            @RequestHeader(value = "Authorization", required = false) String token) {
+
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Authorization token is missing");
+        }
+
+        try {
+            UserRespDTO user = authService.getUserByEmail(email);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
+    // Get all users
+    @GetMapping("/users/all")
+    public ResponseEntity<?> getAllUsers(
+            @RequestHeader(value = "Authorization", required = false) String token) {
+
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Authorization token is missing");
+        }
+
+        AllUsersRespDTO users = authService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
 }

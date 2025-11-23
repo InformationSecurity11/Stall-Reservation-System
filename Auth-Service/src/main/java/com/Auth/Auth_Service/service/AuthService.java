@@ -6,6 +6,8 @@ import com.Auth.Auth_Service.jwt.JwtUtil;
 import com.Auth.Auth_Service.repo.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 import java.util.Optional;
 
@@ -66,4 +68,32 @@ public class AuthService {
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
+
+    // Get single user by email
+    public UserRespDTO getUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return UserRespDTO.builder()
+                .email(user.getEmail())
+                .role(user.getRole())
+                .companyName(user.getCompanyName())
+                .contactNumber(user.getContactNumber())
+                .owner(user.getOwner())
+                .build();
+    }
+
+    // Get all users
+    public AllUsersRespDTO getAllUsers() {
+        List<UserRespDTO> userList = userRepository.findAll().stream()
+                .map(user -> UserRespDTO.builder()
+                        .email(user.getEmail())
+                        .role(user.getRole())
+                        .companyName(user.getCompanyName())
+                        .contactNumber(user.getContactNumber())
+                        .owner(user.getOwner())
+                        .build())
+                .toList();
+        return new AllUsersRespDTO(userList);
+    }
+
 }
