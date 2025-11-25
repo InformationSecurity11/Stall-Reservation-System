@@ -1,0 +1,14 @@
+com\bookfair\stallmanagement\dto\AvailabilityResponse.class
+com\bookfair\stallmanagement\model\Stall.class
+com\bookfair\stallmanagement\service\StallService.class
+com\bookfair\stallmanagement\StallManagementApplication.class
+com\bookfair\stallmanagement\dto\StallRequest.class
+com\bookfair\stallmanagement\dto\AvailabilityResponse$AvailabilityResponseBuilder.class
+com\bookfair\stallmanagement\model\Stall$StallSize.class
+com\bookfair\stallmanagement\model\Stall$StallBuilder.class
+com\bookfair\stallmanagement\repository\StallRepository.class
+com\bookfair\stallmanagement\dto\StallResponse$StallResponseBuilder.class
+com\bookfair\stallmanagement\model\Stall$StallStatus.class
+com\bookfair\stallmanagement\dto\StallResponse.class
+com\bookfair\stallmanagement\dto\StallStatusRequest.class
+com\bookfair\stallmanagement\controller\StallController.class
