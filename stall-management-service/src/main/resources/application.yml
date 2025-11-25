@@ -8,6 +8,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+  security:
+    user:
+      name: ignored
+      password: ignored
 
 server:
   port: ${SERVER_PORT:8082}
