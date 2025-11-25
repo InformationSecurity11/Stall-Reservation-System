@@ -121,134 +121,53 @@ Authorization: Bearer <JWT_TOKEN>
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `{userId}` | Get all profiles |
-| GET | `/api/profiles/{userId}` | Get stall by user ID |
+| PUT | `{userId}` | Update Complete Profile (Basic + Rich Info) |
+| PATCH | `/{userId}/rich-info` | Update Logo, Bio, Website (Partial Update) |
+| PUT | `/{userId}/genres` | Update Literary Genres |
 
-### UPDATE
+### Complete Update Body (PUT):
+```json
+{
+    "fullName": "Isitha Updated",
+    "companyName": "New Tech Corp",
+    "address": "Kandy, Sri Lanka",
+    "businessDescription": "We are the best tech book sellers.",
+    "profileImageUrl": "https://example.com/logo.png",
+    "websiteUrl": "www.mybooks.lk"
+}
+```
+### Basic CRUD
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| PUT | `/api/profiles/{userId}` | Update profile details (Name, Address, Company) |
-| PUT | `/api/profiles/{userId}/genres` | Update literary genres list |
+| POST | `/` | Create new profile (Internal use) |
+| GET | `/{userId}` | Get basic profile|
+| DELETE | `/{userId}` | Delete profile |
 
-**Update Detail Request Body:**
-```json
-{
-    "companyName": "Isitha Global Publishing",
-    "address": "Kandy, Sri Lanka"
-}
-```
+## 🔗 Service Integration Map
 
-**Update Genre Request Body:**
-```json
-[
-    "Fiction",
-    "Science",
-    "History",
-    "Technology"
-]
-```
----
+### Auth Service (Port 9090):
 
-### DELETE
+Profile Service sends GET /api/auth/user/details with the User's Token to verify identity and get official account details.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| DELETE | `/api/profiles/{userId}` | Delete a profile |
+### Reservation Service (Port 8083):
 
-## 🧪 Test with PowerShell
+Profile Service sends GET /api/reservations/user/{id} to fetch booking history for the dashboard.
 
-### Create a Profile
-```powershell
-$body = '{"userId":"user123","fullName":"Isitha Publisher","email":"isitha@example.com","companyName":"Isitha Books","role":"VENDOR"}'
-Invoke-RestMethod -Uri "http://localhost:8081/api/profiles" -Method POST -Body $body -ContentType "application/json"
-```
 
-### Get a Profile
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8081/api/profiles/{userId}" -Method GET
-```
+## Final Endpoints
 
-### Get all Profiles
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8082/api/profiles" -Method GET
-```
+| Endpoint        | Method                      | Request Body / Notes                                                                 |
+|-----------------|-----------------------------|---------------------------------------------------------------------------------------|
+| Create Profile  | POST `/`                    | {"userId": "6", "fullName": "Name", "email": "email@test.com", "role": "User"}        |
+| Get Profile     | GET `/{userId}`             | None                                                                                  |
+| Edit Profile    | PUT `/{userId}`             | {"fullName": "New Name", "companyName": "New Co", "address": "New Addr", "profileImageUrl": "url", "businessDescription": "text"} |
+| Rich Info       | PATCH `/{userId}/rich-info` | {"businessDescription": "Bio", "websiteUrl": "link", "profileImageUrl": "link"}       |
+| Update Genres   | PUT `/{userId}/genres`      | ["Sci-Fi", "Tech"]                                                                    |
+| Search          | GET `/search?genre=X`       | None                                                                                  |
+| Dashboard       | GET `/{userId}/dashboard`   | Header: Authorization: Bearer <TOKEN>                                                 |
+| Delete          | DELETE `/{userId}`          | None                                                                                  |
 
-### Add Literary Genres
-```powershell
-$body = '["Fiction", "Educational", "Kids"]'
-Invoke-RestMethod -Uri "http://localhost:8081/api/profiles/{userId}/genres" -Method PUT -Body $body -ContentType "application/json"
-```
-
-### Delete Profile
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8081/api/profiles/{u}serId}" -Method DELETE
-```
----
-
-## 📊 Response Examples
-
-### User Profile Response
-```json
-{
-    "id": "6741a1b2c3d4e5f6g7h8i9j0",
-    "userId": "user123",
-    "fullName": "Isitha Publisher",
-    "email": "isitha@example.com",
-    "phoneNumber": null,
-    "companyName": "Isitha Books",
-    "businessRegNo": null,
-    "address": "Colombo, Sri Lanka",
-    "literaryGenres": [
-        "Fiction",
-        "Science"
-    ],
-    "role": "VENDOR"
-}
-```
 
 ---
 
-## 🔗 Integration with Other Services
-
-The Profile Service acts as the central information hub:
-
-**Auth Service:** When a user registers, Auth Service calls POST /api/profiles to create the initial record.
-
-**Reservation Service:** Before booking a stall, Reservation Service calls GET /api/profiles/{userId} to verify the user is a valid "VENDOR".
-
-**Stall Service:** May use profile data to associate a stall name with a specific company.
-
-## 📝 Data Models
-
-### User Profile Document
-
-| Field | Type | Description |
-|-------|------|-------------|
-| id | String | MongoDB ObjectId |
-| userId | String | Unique Link to Auth Service |
-| fullName | String | Contact Person Name |
-| email | String | Contact Email |
-| phoneNumber | String | Contact Number |
-| companyName | String | Business Name (For Vendors) |
-| businessRegNo | String | Registration Number |
-| address | String | Physical Address |
-| literaryGenres | List<String> | Genres sold (e.g., Fiction, Sci-Fi) |
-| role | String | VENDOR or ADMIN |
-
----
-
-## ✅ API Test Results
-
-All 6 endpoints tested and verified:
-
-| # | API | Status |
-|---|-----|--------|
-| 1 | POST `/api/profiles` | ✅ Pass |
-| 2 | GET `/api/profiles` | ✅ Pass |
-| 3 | GET `/api/profiles/{userId}` | ✅ Pass |
-| 4 | PUT `/api/profiles/{userId}` | ✅ Pass |
-| 5 | PUT `/api/profiles/{userId}/genres` | ✅ Pass |
-| 6 | DELETE `/api/profiles/{userId}` | ✅ Pass |
-
----
