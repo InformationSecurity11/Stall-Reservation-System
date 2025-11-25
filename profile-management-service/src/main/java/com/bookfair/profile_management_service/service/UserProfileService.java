@@ -1,4 +1,4 @@
-package com.bookfair.profile_management_service.service;
+package com.bookfair.profile_management_service.service; // Updated Package
 
 import com.bookfair.profile_management_service.dto.AuthUserDTO;
 import com.bookfair.profile_management_service.dto.RichProfileRequest;
@@ -11,9 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
 import java.util.List;
 
 @Service

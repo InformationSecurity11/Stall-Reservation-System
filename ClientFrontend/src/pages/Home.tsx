@@ -20,22 +20,22 @@ import {
 
 export default function Home() {
   const navigate = useNavigate()
-  const stepBadgeGradients = [
-    "from-[rgb(124,58,237)] to-[rgb(16,185,129)]",
-    "from-[rgb(16,185,129)] to-[rgb(236,72,153)]",
-    "from-[rgb(236,72,153)] to-[rgb(124,58,237)]",
+  const stepBadgeColors = [
+    "bg-blue-600",
+    "bg-green-600",
+    "bg-purple-600",
   ]
 
   const stepIconBg = [
-    "bg-[rgba(124,58,237,0.08)]",
-    "bg-[rgba(16,185,129,0.08)]",
-    "bg-[rgba(236,72,153,0.08)]",
+    "bg-blue-100",
+    "bg-green-100",
+    "bg-purple-100",
   ]
 
   const stepIconColor = [
-    "text-[rgb(124,58,237)]",
-    "text-[rgb(16,185,129)]",
-    "text-[rgb(236,72,153)]",
+    "text-blue-600",
+    "text-green-600",
+    "text-purple-600",
   ]
 
   return (
@@ -53,12 +53,12 @@ export default function Home() {
           </div>
 
           <div className="container mx-auto px-4 text-center">
-            <Badge variant="outline" className="mb-6 px-4 py-2 text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <Badge variant="outline" className="mb-6 px-4 py-2 text-sm font-semibold text-blue-700 border-blue-200 bg-blue-50">
               <Sparkles className="w-4 h-4 mr-2" />
               Colombo BookFair 2026 - March 15-21
             </Badge>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)]">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900">
               Reserve Your Perfect
               <br />
               BookFair Stall
@@ -74,7 +74,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="gradient"
-                  className="h-14 px-8 text-lg gap-2 bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
+                  className="h-14 px-8 text-lg gap-2"
                   onClick={() => navigate("/reserve")}
                 >
                   Browse Available Stalls
@@ -83,7 +83,7 @@ export default function Home() {
               </div>
 
               <div className="w-auto">
-                <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-[rgba(124,58,237,0.12)] text-[rgb(124,58,237)]">
+                <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-blue-200 text-blue-700">
                   View Event Info
                 </Button>
               </div>
@@ -146,7 +146,7 @@ export default function Home() {
                   key={idx}
                   className="relative p-6 bg-white rounded-lg shadow"
                 >
-                  <div className={`absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br ${stepBadgeGradients[idx]} flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
+                  <div className={`absolute -top-4 -left-4 w-12 h-12 rounded-full ${stepBadgeColors[idx]} flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
                     {item.step}
                   </div>
                   <div className={`w-14 h-14 rounded-xl ${stepIconBg[idx]} flex items-center justify-center mb-4 transition-transform duration-300`}>
@@ -178,40 +178,43 @@ export default function Home() {
                   icon: Zap,
                   title: "Fast Booking",
                   description: "Reserve in minutes with our streamlined process",
-                  gradient: "from-[rgb(124,58,237)] to-[rgb(16,185,129)]",
+                  color: "bg-blue-600",
                 },
                 {
                   icon: Shield,
                   title: "Secure Payment",
                   description: "Bank-grade encryption for all transactions",
-                  gradient: "from-[rgb(16,185,129)] to-[rgb(236,72,153)]",
+                  color: "bg-green-600",
                 },
                 {
                   icon: Clock,
                   title: "24/7 Support",
                   description: "Round-the-clock assistance for your queries",
-                  gradient: "from-[rgb(236,72,153)] to-[rgb(124,58,237)]",
+                  color: "bg-purple-600",
                 },
                 {
                   icon: CheckCircle2,
                   title: "Instant Confirmation",
                   description: "QR codes delivered immediately via email",
-                  gradient: "from-[rgb(124,58,237)] to-[rgb(236,72,153)]",
+                  color: "bg-indigo-600",
                 },
               ].map((feature, idx) => (
                 <div key={idx} className="flex justify-center">
                   <BasicCard
                     title={
                       <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.gradient} flex items-center justify-center`}> 
+                        <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center`}> 
                           <feature.icon className="w-6 h-6 text-white" />
                         </div>
                         <span>{feature.title}</span>
                       </div>
                     }
+                    price={null}
+                    image={null}
                     description={feature.description}
                     buttonText={"Learn More"}
                     onButtonClick={() => {}}
+                    children={null}
                   />
                 </div>
               ))}
@@ -222,9 +225,9 @@ export default function Home() {
         {/* CTA Section */}
         <section className="relative py-20 overflow-hidden">
           {/* Animated Background */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/6 via-secondary/4 to-olive/6" />
-          <div className="absolute top-10 right-10 w-64 h-64 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
-          <div className="absolute bottom-10 left-10 w-80 h-80 bg-secondary/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
+          <div className="absolute inset-0 -z-10 bg-gray-100" />
+          <div className="absolute top-10 right-10 w-64 h-64 bg-blue-100 rounded-full blur-3xl animate-pulse-slow" />
+          <div className="absolute bottom-10 left-10 w-80 h-80 bg-gray-200 rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
 
           <div className="container mx-auto px-4 text-center relative z-10">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">

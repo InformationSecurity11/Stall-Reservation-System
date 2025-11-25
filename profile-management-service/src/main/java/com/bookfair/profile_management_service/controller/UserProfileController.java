@@ -1,14 +1,11 @@
-package com.bookfair.profile_management_service.controller;
+package com.bookfair.profile_management_service.controller; 
 
-import com.bookfair.profile_management_service.dto.RichProfileRequest;
-import com.bookfair.profile_management_service.dto.VendorDashboardDTO;
 import com.bookfair.profile_management_service.model.UserProfile;
 import com.bookfair.profile_management_service.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -59,7 +56,7 @@ public class UserProfileController {
 
     // --- 4. DELETE PROFILE ---
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteProfile(@PathVariable String userId) {
+    public String deleteProfile(@PathVariable String userId) {
         service.deleteProfile(userId);
         return ResponseEntity.ok("Profile deleted");
     }

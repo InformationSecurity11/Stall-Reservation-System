@@ -8,6 +8,7 @@ type ButtonVariant =
   | "gradient"
   | "secondary"
   | "link"
+  | "destructive"
 
 type ButtonSize = "default" | "sm" | "lg" | "icon"
 
@@ -20,12 +21,13 @@ export interface ButtonProps
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
   
-  default: "bg-neutral-600 text-white shadow-sm",
-  outline: "bg-transparent border border-border text-foreground",
+  default: "bg-neutral-600 text-white shadow-sm hover:bg-neutral-700",
+  outline: "bg-transparent border border-border text-foreground hover:bg-muted/30",
   ghost: "bg-transparent hover:bg-muted/30 text-foreground",
-  gradient: "bg-gradient via-secondary to-olive text-white shadow-md",
-  secondary: "bg-secondary text-white shadow-sm",
-  link: "text-primary underline-offset-4 hover:underline bg-transparent",
+  gradient: "bg-blue-600 text-white shadow-md hover:bg-blue-700",
+  secondary: "bg-gray-600 text-white shadow-sm hover:bg-gray-700",
+  link: "text-blue-600 underline-offset-4 hover:underline bg-transparent",
+  destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700",
 }
 
 const SIZE_CLASS: Record<ButtonSize, string> = {
