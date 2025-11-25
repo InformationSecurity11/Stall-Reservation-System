@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Data
 @NoArgsConstructor
@@ -25,8 +27,16 @@ public class UserEntity {
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private String role; // ADMIN, VENDOR, CUSTOMER
 
+    // Common fields for all users
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    // Vendor specific fields
     @Column(name = "company_name")
     private String companyName;
 
@@ -34,7 +44,20 @@ public class UserEntity {
     private String contactNumber;
 
     @Column(name = "owner")
-    private  String owner;
+    private String owner;
 
+    @Column(name = "business_reg_no")
+    private String businessRegNo;
+
+    @Column(name = "address", columnDefinition = "TEXT")
+    private String address;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private java.time.LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private java.time.LocalDateTime updatedAt;
 
 }

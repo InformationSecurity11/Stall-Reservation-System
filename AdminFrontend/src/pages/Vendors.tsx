@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -10,66 +10,41 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Search } from 'lucide-react';
+import { useAllUsers } from '@/services/apiHooks';
 
-// Mock data
-const mockVendors = [
-  {
-    id: 'V-001',
-    businessName: 'Sarasavi Publishers',
-    contactPerson: 'Nimal Silva',
-    email: 'nimal@sarasavi.lk',
-    phone: '+94 77 123 4567',
-    reservedStalls: 3,
-  },
-  {
-    id: 'V-002',
-    businessName: 'Vijitha Yapa',
-    contactPerson: 'Kumari Perera',
-    email: 'kumari@vijithayapa.com',
-    phone: '+94 71 234 5678',
-    reservedStalls: 2,
-  },
-  {
-    id: 'V-003',
-    businessName: 'MD Gunasena',
-    contactPerson: 'Sunil Fernando',
-    email: 'sunil@gunasena.lk',
-    phone: '+94 76 345 6789',
-    reservedStalls: 4,
-  },
-  {
-    id: 'V-004',
-    businessName: 'Samayawardhana',
-    contactPerson: 'Dilini Jayawardena',
-    email: 'dilini@samayawardhana.lk',
-    phone: '+94 75 456 7890',
-    reservedStalls: 2,
-  },
-  {
-    id: 'V-005',
-    businessName: 'Godage Publishers',
-    contactPerson: 'Rohan Wickramasinghe',
-    email: 'rohan@godage.lk',
-    phone: '+94 77 567 8901',
-    reservedStalls: 3,
-  },
-  {
-    id: 'V-006',
-    businessName: 'Lake House Bookshop',
-    contactPerson: 'Priya Mendis',
-    email: 'priya@lakehouse.lk',
-    phone: '+94 71 678 9012',
-    reservedStalls: 2,
-  },
-];
+interface Vendor {
+  id: string;
+  email: string;
+  name: string;
+  businessName?: string;
+  phone?: string;
+  reservedStalls?: number;
+}
 
 const Vendors = () => {
+  const { data: apiUsers, loading: usersLoading } = useAllUsers(true);
+  const [vendors, setVendors] = useState<Vendor[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredVendors = mockVendors.filter(
+  // Map API users to vendor format
+  useEffect(() => {
+    if (apiUsers) {
+      const mapped = apiUsers.map((user: any) => ({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        businessName: user.businessName || user.name,
+        phone: user.phone || '-',
+        reservedStalls: 0, // This would need to be fetched from reservation data
+      }));
+      setVendors(mapped);
+    }
+  }, [apiUsers]);
+
+  const filteredVendors = vendors.filter(
     (vendor) =>
-      vendor.businessName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vendor.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vendor.businessName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vendor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       vendor.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -102,30 +77,44 @@ const Vendors = () => {
           <CardTitle>Vendors ({filteredVendors.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Vendor ID</TableHead>
-                <TableHead>Business Name</TableHead>
-                <TableHead>Contact Person</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead className="text-right">Reserved Stalls</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredVendors.map((vendor) => (
-                <TableRow key={vendor.id}>
-                  <TableCell className="font-medium">{vendor.id}</TableCell>
-                  <TableCell>{vendor.businessName}</TableCell>
-                  <TableCell>{vendor.contactPerson}</TableCell>
-                  <TableCell>{vendor.email}</TableCell>
-                  <TableCell>{vendor.phone}</TableCell>
-                  <TableCell className="text-right">{vendor.reservedStalls}</TableCell>
+          {usersLoading ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Loading vendors...</p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Vendor ID</TableHead>
+                  <TableHead>Business Name</TableHead>
+                  <TableHead>Contact Person</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead className="text-right">Reserved Stalls</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredVendors.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                      No vendors found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredVendors.map((vendor) => (
+                    <TableRow key={vendor.id}>
+                      <TableCell className="font-medium">{vendor.id}</TableCell>
+                      <TableCell>{vendor.businessName}</TableCell>
+                      <TableCell>{vendor.name}</TableCell>
+                      <TableCell>{vendor.email}</TableCell>
+                      <TableCell>{vendor.phone}</TableCell>
+                      <TableCell className="text-right">{vendor.reservedStalls || 0}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
