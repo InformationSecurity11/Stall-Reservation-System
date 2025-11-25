@@ -59,10 +59,18 @@ Example Request:
 Response (Success):
 
 {
-"message": "Login successful",
-"error": null,
-"token": "<JWT_TOKEN>"
+    "message": "Login successful",
+    "error": null,
+    "token": "<JWT_TOKEN>",
+    "user": {
+        "email": "admin@example.com",
+        "role": "ADMIN",
+        "companyName": "My Company",
+        "contactNumber": "1234567890",
+        "owner": "John Doe"
+    }
 }
+
 
 Response (Failure):
 
@@ -93,12 +101,24 @@ Headers:
 Authorization: Bearer <JWT_TOKEN>
 
 Response (Success):
+{
+"success": true,
+"message": "User deleted successfully"
+}
 
-"User deleted successfully."
 
 Response (Failure):
+{
+"success": false,
+"message": "User with ID {id} does not exist"
+}
 
-"Authorization token is missing"
+Response (Failure: Missing/Invalid Token)
+{
+"success": false,
+"message": "Authorization token is missing"
+}
+
 
 5. Get User Details
 
