@@ -47,27 +47,68 @@ public class AuthService {
     }
 
     // Login
+//    public LoginRespDTO login(LoginReqDTO req) {
+//        Optional<UserEntity> userOpt = userRepository.findByEmail(req.getEmail());
+//        if (userOpt.isEmpty())
+//            return new LoginRespDTO(null, "Invalid email or password", null);
+//        UserEntity user = userOpt.get();
+//        if (!passwordEncoder.matches(req.getPassword(), user.getPassword()))
+//            return new LoginRespDTO(null, "Invalid email or password", null);
+//
+//        // Create token with email
+//        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+//        return new LoginRespDTO("Login successful", null, token);
+//    }
+//
+//    public UserEntity getUserByToken(String email) {
+//        return userRepository.findByEmail(email)
+//                .orElseThrow(() -> new RuntimeException("Invalid token"));
+//    }
+
     public LoginRespDTO login(LoginReqDTO req) {
         Optional<UserEntity> userOpt = userRepository.findByEmail(req.getEmail());
-        if (userOpt.isEmpty())
-            return new LoginRespDTO(null, "Invalid email or password", null);
+        if (userOpt.isEmpty()) {
+            return new LoginRespDTO(null, "Invalid email or password", null, null);
+        }
+
         UserEntity user = userOpt.get();
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword()))
-            return new LoginRespDTO(null, "Invalid email or password", null);
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            return new LoginRespDTO(null, "Invalid email or password", null, null);
+        }
 
         // Create token with userId, email, and role
         String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
         return new LoginRespDTO("Login successful", null, token);
     }
 
-    public UserEntity getUserByToken(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
+        // Convert UserEntity to UserRespDTO
+        UserRespDTO userResp = UserRespDTO.builder()
+                .email(user.getEmail())
+                .role(user.getRole())
+                .companyName(user.getCompanyName())
+                .contactNumber(user.getContactNumber())
+                .owner(user.getOwner())
+                .build();
+
+        return new LoginRespDTO("Login successful", null, token, userResp);
     }
 
-    public void deleteUserById(Long id) {
+
+//    public void deleteUserById(Long id) {
+//        userRepository.deleteById(id);
+//    }
+
+    public UserDeleteRespDTO deleteUserById(Long id) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return new UserDeleteRespDTO(false, "User with ID " + id + " does not exist");
+        }
+
         userRepository.deleteById(id);
+        return new UserDeleteRespDTO(true, "User deleted successfully");
     }
+
 
     // Get single user by email
     public UserRespDTO getUserByEmail(String email) {
