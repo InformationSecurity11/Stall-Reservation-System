@@ -6,12 +6,8 @@ import java.util.List;
 
 @Data
 public class VendorDashboardDTO {
-    // 1. Data from Profile Service
     private UserProfile profile;
-    
-    // 2. Data from Reservation Service
     private List<Object> myReservations; 
-    
-    // 3. Simple stats
+    private AuthUserDTO accountDetails; // Ensure AuthUserDTO.java also exists in this folder!
     private int totalReservations;
 }

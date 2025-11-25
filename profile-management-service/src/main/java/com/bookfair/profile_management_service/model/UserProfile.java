@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,7 +17,6 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // --- Basic Info (Synced from Auth Service) ---
     @Column(unique = true, nullable = false)
     private String userId; 
     private String fullName;
@@ -28,17 +25,13 @@ public class UserProfile {
     private String companyName;
     private String address;
 
-    // --- RICH DATA (Extended Profile Features) ---
-    
-    @Column(length = 2000) // Allow long text for "About Us"
-    private String businessDescription; 
-    
-    private String profileImageUrl; // URL to logo
-    
+    // --- EXTENDED PROFILE FIELDS ---
+    @Column(length = 2000)
+    private String businessDescription;
+    private String profileImageUrl;
     private String websiteUrl;
     private String facebookUrl;
 
-    // --- GENRES (For Search & Categorization) ---
     @ElementCollection
     @CollectionTable(name = "user_profile_literary_genres", joinColumns = @JoinColumn(name = "user_profile_id"))
     @Column(name = "literary_genres")

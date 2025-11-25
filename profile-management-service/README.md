@@ -1,16 +1,23 @@
 # 📁 Profile Management Service
 
-A Spring Boot microservice for managing **User and Vendor profiles** in the **Colombo International Bookfair Reservation System**.  
-This service handles business details, contact information, vendor genres, and internal API communication for other microservices.
+A Spring Boot microservice for managing User and Vendor profiles in the Colombo International Bookfair Reservation System. This service acts as the central hub for vendor identity, implementing the Aggregator Pattern to combine data from Auth and Reservation services into a single dashboard.
 
 ---
 
 ## 📋 Features
-- **Profile Management**: Create, Read, Update, Delete vendor/organizer profiles  
-- **Genre Management**: Manage literary genres for each vendor  
-- **Role Management**: Vendors vs Admins (Organizers)  
-- **Data Persistence**: MongoDB  
-- **Internal API**: Provides user details for Auth and Reservation services  
+**Aggregator Dashboard**: Fetches and combines data from:
+
+**Local MySQL**: Extended profile details (Logo, Bio, Website).
+
+**Auth Service**: Official account details (Company Name, Owner, Role).
+
+**Reservation Service**: Real-time booking status and total counts.
+
+**Rich Profile Management**: CMS-like features for vendors to manage their public presence (Logos, Descriptions, Social Links).
+
+**Public Catalog Search**: Search for vendors by literary genre (e.g., "Sci-Fi", "Education").
+
+**CRUD Operations**: Full Create, Read, Update, Delete capabilities with Role validation.  
 
 ---
 
@@ -20,8 +27,8 @@ This service handles business details, contact information, vendor genres, and i
 |-----------|---------|
 | Java | 21 |
 | Spring Boot | 3.2.0 |
-| MongoDB | 6.0+ |
-| Lombok | Latest |
+| MySQL | 8.0+ |
+| RestTemplate | Inter Service Communication |
 | Maven | 3.9.x |
 | Docker | Latest |
 
@@ -35,6 +42,10 @@ profile-management-service/
 │   ├── java/com/bookfair/profile_management_service/
 │   │   ├── controller/
 │   │   │   └── UserProfileController.java
+│   │   ├── dto/
+│   │   │   ├── AuthUserDTO.java
+│   │   │   ├── RichProfileRequest.java
+│   │   │   └── VendorDashboardDTO.java
 │   │   ├── model/
 │   │   │   └── UserProfile.java
 │   │   ├── repository/
@@ -44,17 +55,21 @@ profile-management-service/
 │   │   └── ProfileManagementServiceApplication.java
 │   └── resources/
 │       ├── application.properties
+├── Dockerfile
 ├── pom.xml
 └── README.md
 ```
 
 ## ⚙️ Configuration
-```bash
+```properties
 server.port=8081
 spring.application.name=profile-management-service
 
-# MongoDB Connection
-spring.data.mongodb.uri=mongodb://localhost:27017/bookfair_db
+# MySQL Connection
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/bookfair_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 ## 🚀 Run the Application
@@ -70,31 +85,43 @@ App runs at: `http://localhost:8081`
 ## 🔌 API Endpoints
 Base URL: `http://localhost:8081/api/profiles`
 
-### CREATE
+### USER DASHBOARD
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/profiles` | Create a new user/vendor profile |
+| GET | `/{userId}/dashboard` | Returns combined Profile + Auth + Reservation data |
 
+**Headers Required:**
+
+Authorization: Bearer <JWT_TOKEN>
 
 **Request Body:**
 
+
 ```json
 {
-    "userId": "user123",
-    "fullName": "Isitha Publisher",
-    "email": "isitha@example.com",
-    "companyName": "Isitha Books",
-    "address": "Colombo, Sri Lanka",
-    "role": "VENDOR"
+    "profile": {
+        "fullName": "Isitha",
+        "businessDescription": "Sci-Fi Sellers",
+        "profileImageUrl": "logo.png",
+        "websiteUrl": "www.isithabooks.lk"
+    },
+    "accountDetails": {
+        "email": "isitha@test.com",
+        "companyName": "Isitha Global",
+        "owner": "Isitha Owner",
+        "role": "User"
+    },
+    "myReservations": [],
+    "totalReservations": 0
 }
 ```
 
-### READ
+### EXTENDED PROFILE MANAGEMENT
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/profiles` | Get all profiles |
+| GET | `{userId}` | Get all profiles |
 | GET | `/api/profiles/{userId}` | Get stall by user ID |
 
 ### UPDATE
