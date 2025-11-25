@@ -157,6 +157,8 @@ Profile Service sends GET /api/reservations/user/{id} to fetch booking history f
 
 ## Final Endpoints
 
+## Base URL: http://localhost:8081/api/profiles
+
 | Endpoint        | Method                      | Request Body / Notes                                                                 |
 |-----------------|-----------------------------|---------------------------------------------------------------------------------------|
 | Create Profile  | POST `/`                    | {"userId": "6", "fullName": "Name", "email": "email@test.com", "role": "User"}        |
