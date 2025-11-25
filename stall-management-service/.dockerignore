@@ -12,3 +12,12 @@ target/
 *.iml
 node_modules/
 .env.local
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!target/*.jar
+*.class
+.git
+.gitignore
+.idea
+*.md
+*.log
