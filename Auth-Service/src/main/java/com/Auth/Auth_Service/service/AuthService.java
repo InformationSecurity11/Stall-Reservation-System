@@ -79,7 +79,7 @@ public class AuthService {
         // Create token with userId, email, and role
         String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
         return new LoginRespDTO("Login successful", null, token);
-    }
+    
 
         // Convert UserEntity to UserRespDTO
         UserRespDTO userResp = UserRespDTO.builder()
