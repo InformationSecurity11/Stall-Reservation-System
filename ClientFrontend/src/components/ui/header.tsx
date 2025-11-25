@@ -88,10 +88,10 @@ export default function Header() {
           >
             <div className="relative">
               {/* Animated glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-olive rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
               
               {/* Logo container */}
-              <div className="relative w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-gradient-to-br from-primary via-secondary to-olive p-0.5 group-hover:scale-110 transition-transform duration-300">
+              <div className="relative w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-blue-600 p-0.5 group-hover:scale-110 transition-transform duration-300">
                 <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
                   <Sparkles className="w-6 h-6 lg:w-7 lg:h-7 text-primary group-hover:text-secondary transition-colors duration-300" />
                 </div>
@@ -197,7 +197,7 @@ export default function Header() {
                       variant="outline"
                       className="gap-2.5 px-4 py-2.5 h-11 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-semibold text-sm group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm group-hover:scale-110 transition-transform duration-300">
                         {user?.email?.charAt(0).toUpperCase() || "U"}
                       </div>
                       <span className="font-medium text-sm hidden xl:inline-block">
@@ -250,10 +250,9 @@ export default function Header() {
                 </Button>
                 <Button
                   onClick={() => navigate("/auth?tab=signup")}
-                  className="px-6 py-2.5 h-11 font-medium bg-gradient-to-r from-primary via-secondary to-olive hover:shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 group relative overflow-hidden"
+                  className="px-6 py-2.5 h-11 font-medium bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 hover:scale-105 transition-all duration-300"
                 >
-                  <span className="relative z-10">Get Started</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-olive via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  Get Started
                 </Button>
               </>
             )}
@@ -341,9 +340,9 @@ export default function Header() {
           <div className="space-y-4 pb-8">
             {isAuthenticated ? (
               <>
-                <div className="px-6 py-4 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-olive/10 border-2 border-primary/20">
+                <div className="px-6 py-4 rounded-2xl bg-blue-600/10 border-2 border-blue-600/20">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
                       {user?.email?.charAt(0).toUpperCase() || "U"}
                     </div>
                     <div className="flex-1">
@@ -395,7 +394,7 @@ export default function Header() {
                   Login
                 </Button>
                 <Button
-                  className="w-full h-14 text-base font-medium bg-gradient-to-r from-primary via-secondary to-olive hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
+                  className="w-full h-14 text-base font-medium bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 transition-all duration-300"
                   onClick={() => navigate("/auth?tab=signup")}
                 >
                   Get Started

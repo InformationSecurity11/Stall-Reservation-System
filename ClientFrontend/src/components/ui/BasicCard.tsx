@@ -5,7 +5,7 @@ export default function BasicCard({ title, price, description, image, buttonText
     <div className="relative flex flex-col my-3 sm:my-4 bg-white shadow-xl rounded-2xl w-full max-w-xs sm:w-80 p-3 sm:p-5 border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
       {image && (
         <div className="relative h-28 sm:h-36 overflow-hidden rounded-xl mb-3 shadow-md">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-black/10 z-10"></div>
           <img
             src={image}
             alt="card-image"
@@ -36,7 +36,7 @@ export default function BasicCard({ title, price, description, image, buttonText
           className={`rounded-xl w-full mt-3 py-2.5 px-4 border border-transparent text-center text-sm font-semibold transition-all duration-200 shadow-md ${
             buttonDisabled
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
-              : 'bg-gradient-to-r from-cyan-600 to-cyan-700 text-white hover:from-cyan-700 hover:to-cyan-800 hover:shadow-lg hover:scale-105 active:scale-100'
+              : 'bg-cyan-600 text-white hover:bg-cyan-700 hover:shadow-lg hover:scale-105 active:scale-100'
           }`}
           type="button"
           onClick={onButtonClick}

@@ -149,7 +149,7 @@ export default function BookingSummary({
               <div className="flex items-center justify-between text-base pt-2">
                 <span className="font-bold text-foreground">Total</span>
                 <div className="text-right">
-                  <p className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-foreground">
+                  <p className="font-bold text-xl text-green-700">
                     LKR {total.toLocaleString()}
                   </p>
                   <p className="text-xs text-muted-foreground">per day</p>
