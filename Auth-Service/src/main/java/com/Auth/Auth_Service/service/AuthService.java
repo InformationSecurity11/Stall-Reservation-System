@@ -76,8 +76,10 @@ public class AuthService {
             return new LoginRespDTO(null, "Invalid email or password", null, null);
         }
 
-        // Create token
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        // Create token with userId, email, and role
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
+        return new LoginRespDTO("Login successful", null, token);
+    }
 
         // Convert UserEntity to UserRespDTO
         UserRespDTO userResp = UserRespDTO.builder()

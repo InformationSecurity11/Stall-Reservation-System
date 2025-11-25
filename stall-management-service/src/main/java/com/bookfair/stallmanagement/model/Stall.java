@@ -9,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Document(collection = "stalls")
 @Data
 @NoArgsConstructor
@@ -42,9 +45,12 @@ public class Stall {
     
     private Double length;
     
-    private Double pricePerDay;
+    private BigDecimal pricePerDay;  // Changed from Double to BigDecimal for consistency
     
     private String description;
+    
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     
     public enum StallSize {
         SMALL, MEDIUM, LARGE
@@ -69,6 +75,8 @@ public class Stall {
                 .length(request.getLength())
                 .pricePerDay(request.getPricePerDay())
                 .description(request.getDescription())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

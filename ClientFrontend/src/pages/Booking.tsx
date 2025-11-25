@@ -189,12 +189,12 @@ export default function Booking() {
           <div className="mb-12 text-center">
             <Badge
               variant="outline"
-              className="mb-4 px-4 py-2 text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]"
+              className="mb-4 px-4 py-2 text-sm font-semibold text-blue-700 border-blue-200 bg-blue-50"
             >
               <Package className="w-4 h-4 mr-2" />
               My Bookings
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
               Manage Your Stall Bookings
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -362,7 +362,7 @@ export default function Booking() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+                            <h3 className="text-xl font-bold text-blue-700">
                               {booking.stallName}
                             </h3>
                             <Badge
@@ -404,7 +404,7 @@ export default function Booking() {
                         <div className="pt-3 border-t border-border">
                           <div className="flex items-center justify-between">
                             <span className="text-lg font-bold text-foreground">Total Price</span>
-                            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(16,185,129)] to-[rgb(236,72,153)]">
+                            <span className="text-2xl font-bold text-green-700">
                               ${booking.price.toLocaleString()}
                             </span>
                           </div>

@@ -3,47 +3,94 @@ package com.bookfair.profile_management_service.controller;
 import com.bookfair.profile_management_service.model.UserProfile;
 import com.bookfair.profile_management_service.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/profiles") 
+@RequestMapping("/api/profiles")
 @CrossOrigin(origins = "*")
 public class UserProfileController {
 
     @Autowired
     private UserProfileService service;
 
+    // --- 1. CREATE PROFILE ---
     @PostMapping
-    public UserProfile createProfile(@RequestBody UserProfile profile) {
-        return service.saveProfile(profile);
+    public ResponseEntity<?> createProfile(@RequestBody UserProfile profile) {
+        try {
+            return ResponseEntity.ok(service.saveProfile(profile));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
+    // --- 2. GET PROFILE ---
     @GetMapping("/{userId}")
     public UserProfile getProfile(@PathVariable String userId) {
         return service.getProfile(userId);
     }
 
-    @PutMapping("/{userId}/genres")
-    public UserProfile addGenres(@PathVariable String userId, @RequestBody List<String> genres) {
-        return service.addGenres(userId, genres);
-    }
-
-    @GetMapping
-    public List<UserProfile> getAllProfiles() {
-        return service.getAllProfiles();
-    }
-
-    
+    // --- 3. EDIT COMPLETE PROFILE (Basic + Rich Info) ---
+    // UPDATED: This now handles Name/Address AND Logo/Bio updates in one request.
     @PutMapping("/{userId}")
-    public UserProfile updateProfile(@PathVariable String userId, @RequestBody UserProfile profile) {
-        return service.updateProfile(userId, profile);
+    public ResponseEntity<UserProfile> updateProfile(@PathVariable String userId, 
+                                                     @RequestBody UserProfile updatedData) {
+         UserProfile existingProfile = service.getProfile(userId);
+         
+         // --- Basic Info Updates ---
+         if (updatedData.getFullName() != null) existingProfile.setFullName(updatedData.getFullName());
+         if (updatedData.getPhoneNumber() != null) existingProfile.setPhoneNumber(updatedData.getPhoneNumber());
+         if (updatedData.getCompanyName() != null) existingProfile.setCompanyName(updatedData.getCompanyName());
+         if (updatedData.getAddress() != null) existingProfile.setAddress(updatedData.getAddress());
+         
+         // --- Rich Info Updates (NEWLY ADDED) ---
+         if (updatedData.getBusinessDescription() != null) existingProfile.setBusinessDescription(updatedData.getBusinessDescription());
+         if (updatedData.getProfileImageUrl() != null) existingProfile.setProfileImageUrl(updatedData.getProfileImageUrl());
+         if (updatedData.getWebsiteUrl() != null) existingProfile.setWebsiteUrl(updatedData.getWebsiteUrl());
+         if (updatedData.getFacebookUrl() != null) existingProfile.setFacebookUrl(updatedData.getFacebookUrl());
+
+         return ResponseEntity.ok(service.saveProfile(existingProfile));
     }
 
-    
+    // --- 4. DELETE PROFILE ---
     @DeleteMapping("/{userId}")
     public String deleteProfile(@PathVariable String userId) {
         service.deleteProfile(userId);
-        return "User profile for " + userId + " has been deleted successfully.";
+        return ResponseEntity.ok("Profile deleted");
+    }
+
+    // --- EXTENDED FEATURES ---
+
+    // Specific Rich Info Update (You can keep this for partial updates if desired)
+    @PatchMapping("/{userId}/rich-info")
+    public ResponseEntity<UserProfile> updateRichInfo(@PathVariable String userId, @RequestBody RichProfileRequest request) {
+        return ResponseEntity.ok(service.updateRichProfile(userId, request));
+    }
+
+    // Add/Update Genres
+    @PutMapping("/{userId}/genres")
+    public ResponseEntity<UserProfile> updateGenres(@PathVariable String userId, @RequestBody List<String> genres) {
+        UserProfile profile = service.getProfile(userId);
+        profile.setLiteraryGenres(genres);
+        return ResponseEntity.ok(service.saveProfile(profile));
+    }
+    
+    // Public Search
+    @GetMapping("/search")
+    public ResponseEntity<List<UserProfile>> searchVendors(@RequestParam String genre) {
+        return ResponseEntity.ok(service.searchByGenre(genre));
+    }
+
+    // Vendor Dashboard (Aggregator)
+    @GetMapping("/{userId}/dashboard")
+    public ResponseEntity<VendorDashboardDTO> getDashboard(
+            @PathVariable String userId,
+            @RequestHeader(value = "Authorization", required = false) String token) {
+        
+        // Debug logs
+        System.out.println("DEBUG: Dashboard Request for " + userId);
+        return ResponseEntity.ok(service.getVendorDashboard(userId, token));
     }
 }

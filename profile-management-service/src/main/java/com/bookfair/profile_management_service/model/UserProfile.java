@@ -18,7 +18,7 @@ public class UserProfile {
     @Id
     private String id; 
 
-    private String userId; 
+    private Long userId;  // Changed from String to Long to match UserEntity
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -27,6 +27,10 @@ public class UserProfile {
     private String companyName;
     private String businessRegNo;
     private String address;
+    
+    // Common fields
+    private String contactNumber;
+    private String owner;
 
     // Genres 
     private List<String> literaryGenres;
@@ -48,6 +52,7 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Back to Long ID (Auto-increment)
 
+    @Column(unique = true, nullable = false)
     private String userId; 
     private String fullName;
     private String email;
@@ -58,7 +63,13 @@ public class UserProfile {
     private String businessRegNo;
     private String address;
 
-    // Genres (SQL needs a separate table for lists, handled by @ElementCollection)
+    // --- EXTENDED PROFILE FIELDS ---
+    @Column(length = 2000)
+    private String businessDescription;
+    private String profileImageUrl;
+    private String websiteUrl;
+    private String facebookUrl;
+
     @ElementCollection
     @CollectionTable(name = "user_profile_literary_genres", joinColumns = @JoinColumn(name = "user_profile_id"))
     @Column(name = "literary_genres")

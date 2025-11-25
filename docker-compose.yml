@@ -37,24 +37,44 @@ services:
       retries: 5
       interval: 10s
 
-  # mongodb_stall is disabled - stall-management-service is missing pom.xml
-  # Uncomment when stall-management-service is enabled
-  # mongodb_stall:
-  #   image: mongo:6.0
-  #   container_name: stall-mongodb-stall
-  #   environment:
-  #     MONGO_INITDB_DATABASE: stall_db
-  #   ports:
-  #     - "27018:27017"
-  #   volumes:
-  #     - mongodb_stall_data:/data/db
-  #   networks:
-  #     - stall-network
-  #   healthcheck:
-  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-  #     timeout: 10s
-  #     retries: 5
-  #     interval: 10s
+  mongodb_stall:
+    image: mongo:6.0
+    container_name: stall-mongodb-stall
+    environment:
+      MONGO_INITDB_DATABASE: stall_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_stall_data:/data/db
+    networks:
+      - stall-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      timeout: 10s
+      retries: 5
+      interval: 10s
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: stall-api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      SERVER_PORT: 8000
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: auth-service
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://auth-service:8080
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/api/auth/**
+    depends_on:
+      - auth-service
+      - profile-management-service
+      - reservation-management-service
+      - stall-management-service
+    networks:
+      - stall-network
+    restart: unless-stopped
 
   # Backend Services
   auth-service:
@@ -65,7 +85,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/reservation_db?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/reservation_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: appuser
       SPRING_DATASOURCE_PASSWORD: apppassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -86,7 +106,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb_profile:27017/profile_db
+      MONGODB_URI: mongodb://mongodb_profile:27017/profile_db
       SPRING_APPLICATION_NAME: profile-management-service
       SERVER_PORT: 8081
     depends_on:
@@ -96,25 +116,23 @@ services:
       - stall-network
     restart: unless-stopped
 
-  # stall-management-service is disabled - missing pom.xml file
-  # Uncomment and add pom.xml to the stall-management-service directory to enable
-  # stall-management-service:
-  #   build:
-  #     context: ./stall-management-service
-  #     dockerfile: Dockerfile
-  #   container_name: stall-stall-service
-  #   ports:
-  #     - "8082:8082"
-  #   environment:
-  #     SPRING_DATA_MONGODB_URI: mongodb://mongodb_stall:27017/stall_db
-  #     SPRING_APPLICATION_NAME: stall-management-service
-  #     SERVER_PORT: 8082
-  #   depends_on:
-  #     mongodb_stall:
-  #       condition: service_healthy
-  #   networks:
-  #     - stall-network
-  #   restart: unless-stopped
+  stall-management-service:
+    build:
+      context: ./stall-management-service
+      dockerfile: Dockerfile
+    container_name: stall-stall-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb_stall:27017/stall_db
+      SPRING_APPLICATION_NAME: stall-management-service
+      SERVER_PORT: 8082
+    depends_on:
+      mongodb_stall:
+        condition: service_healthy
+    networks:
+      - stall-network
+    restart: unless-stopped
 
   reservation-management-service:
     build:
@@ -124,7 +142,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/reservation_db?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/reservation_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: appuser
       SPRING_DATASOURCE_PASSWORD: apppassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -146,7 +164,9 @@ services:
     ports:
       - "3001:3001"
     environment:
-      VITE_API_URL: http://localhost:8080
+      VITE_API_URL: http://api-gateway:8000
+    depends_on:
+      - api-gateway
     networks:
       - stall-network
     restart: unless-stopped
@@ -159,7 +179,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VITE_API_URL: http://localhost:8083
+      VITE_API_URL: http://api-gateway:8000
+    depends_on:
+      - api-gateway
     networks:
       - stall-network
     restart: unless-stopped

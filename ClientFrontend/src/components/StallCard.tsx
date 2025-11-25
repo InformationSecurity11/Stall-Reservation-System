@@ -34,11 +34,11 @@ export default function StallCard({ stall, isSelected, onSelect, disabled }: Sta
   const getTypeColor = (type: string) => {
     switch (type) {
       case "Premium":
-        return "bg-gradient-to-r from-olive to-olive/80 text-white"
+        return "bg-green-600 text-white"
       case "Corner":
-        return "bg-gradient-to-r from-secondary to-secondary/80 text-white"
+        return "bg-purple-600 text-white"
       default:
-        return "bg-gradient-to-r from-primary to-primary/80 text-white"
+        return "bg-blue-600 text-white"
     }
   }
 
@@ -93,7 +93,7 @@ export default function StallCard({ stall, isSelected, onSelect, disabled }: Sta
       )}
 
       {/* Stall Image */}
-      <div className="relative h-48 bg-gradient-to-br from-muted/50 to-muted/30 overflow-hidden">
+      <div className="relative h-48 bg-muted/50 overflow-hidden">
         {!imageError && stall.image ? (
           <img
             src={stall.image}
@@ -110,8 +110,8 @@ export default function StallCard({ stall, isSelected, onSelect, disabled }: Sta
           </div>
         )}
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
 
         {/* Type Badge */}
         <div className="absolute bottom-3 left-3">
@@ -155,7 +155,7 @@ export default function StallCard({ stall, isSelected, onSelect, disabled }: Sta
           <div className="h-8 w-px bg-border"></div>
           <div className="text-right">
             <p className="text-xs text-muted-foreground uppercase tracking-wider">Price/Day</p>
-            <p className="font-bold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent flex items-center gap-1">
+            <p className="font-bold text-lg text-blue-600 flex items-center gap-1">
               <DollarSign className="w-4 h-4 text-primary" />
               {stall.price.toLocaleString()}
             </p>
