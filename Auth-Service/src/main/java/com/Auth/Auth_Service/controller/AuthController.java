@@ -50,24 +50,44 @@ public class AuthController {
     }
 
 
+//    @DeleteMapping("/user/delete/{id}")
+//    public ResponseEntity<String> deleteUser(
+//            @PathVariable Long id,
+//            @RequestHeader(value = "Authorization", required = false) String token) {
+//
+//        if (token == null || token.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body("Authorization token is missing");
+//        }
+//
+//        try {
+//            authService.deleteUserById(id);
+//            return ResponseEntity.ok("User deleted successfully.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error deleting user: " + e.getMessage());
+//        }
+//    }
+
     @DeleteMapping("/user/delete/{id}")
-    public ResponseEntity<String> deleteUser(
+    public ResponseEntity<UserDeleteRespDTO> deleteUser(
             @PathVariable Long id,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-        if (token == null || token.isEmpty()) {
+        if (token == null || !token.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Authorization token is missing");
+                    .body(new UserDeleteRespDTO(false, "Authorization token is missing"));
         }
 
-        try {
-            authService.deleteUserById(id);
-            return ResponseEntity.ok("User deleted successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error deleting user: " + e.getMessage());
+        UserDeleteRespDTO response = authService.deleteUserById(id);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+
+        return ResponseEntity.ok(response);
     }
+
 
     // Get user by email
     @GetMapping("/user/details")

@@ -93,12 +93,24 @@ Headers:
 Authorization: Bearer <JWT_TOKEN>
 
 Response (Success):
+{
+"success": true,
+"message": "User deleted successfully"
+}
 
-"User deleted successfully."
 
 Response (Failure):
+{
+"success": false,
+"message": "User with ID {id} does not exist"
+}
 
-"Authorization token is missing"
+Response (Failure: Missing/Invalid Token)
+{
+"success": false,
+"message": "Authorization token is missing"
+}
+
 
 5. Get User Details
 

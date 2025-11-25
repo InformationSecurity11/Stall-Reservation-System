@@ -65,9 +65,21 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
     }
 
-    public void deleteUserById(Long id) {
+//    public void deleteUserById(Long id) {
+//        userRepository.deleteById(id);
+//    }
+
+    public UserDeleteRespDTO deleteUserById(Long id) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return new UserDeleteRespDTO(false, "User with ID " + id + " does not exist");
+        }
+
         userRepository.deleteById(id);
+        return new UserDeleteRespDTO(true, "User deleted successfully");
     }
+
 
     // Get single user by email
     public UserRespDTO getUserByEmail(String email) {
