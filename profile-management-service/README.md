@@ -75,6 +75,5 @@ profile-management-service/
 | Dashboard       | GET `/{userId}/dashboard`   | Header: Authorization: Bearer <TOKEN>                                                 |
 | Delete          | DELETE `/{userId}`          | None                                                                                  |
 
-
 ---
 
