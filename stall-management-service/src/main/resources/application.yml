@@ -3,7 +3,7 @@ spring:
     name: stall-management-service
   data:
     mongodb:
-      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27018/stall_db}
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://mongodb_stall:27017/stall_db}
   jpa:
     hibernate:
       ddl-auto: update

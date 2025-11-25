@@ -64,6 +64,7 @@ const request = async <T>(
     const response = await fetch(url, {
       ...fetchOptions,
       headers,
+      credentials: 'include',
     });
 
     const data = await response.json().catch(() => null);

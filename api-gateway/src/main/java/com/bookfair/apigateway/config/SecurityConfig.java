@@ -13,15 +13,25 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
-            .cors(cors -> cors.disable())
+            .cors(cors -> cors.configurationSource(request -> {
+                org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+                config.setAllowedOrigins(java.util.Arrays.asList(
+                    "http://localhost:3000",
+                    "http://localhost:3001",
+                    "http://localhost:5173",
+                    "http://localhost:5174"
+                ));
+                config.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(java.util.Collections.singletonList("*"));
+                config.setExposedHeaders(java.util.Collections.singletonList("*"));
+                config.setAllowCredentials(true);
+                config.setMaxAge(3600L);
+                return config;
+            }))
             .csrf(csrf -> csrf.disable())
             .authorizeExchange(exchange -> exchange
-                // Allow public endpoints
-                .pathMatchers("/api/auth/login").permitAll()
-                .pathMatchers("/api/auth/register").permitAll()
-                .pathMatchers("/api/auth/logout").permitAll()
-                // All other requests require authentication
-                .anyExchange().authenticated()
+                // Allow ALL requests to pass through - backend services handle authentication
+                .anyExchange().permitAll()
             );
 
         return http.build();
