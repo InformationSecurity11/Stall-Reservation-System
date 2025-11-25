@@ -55,8 +55,8 @@ public class AuthService {
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword()))
             return new LoginRespDTO(null, "Invalid email or password", null);
 
-        // Create token with email
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        // Create token with userId, email, and role
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
         return new LoginRespDTO("Login successful", null, token);
     }
 
