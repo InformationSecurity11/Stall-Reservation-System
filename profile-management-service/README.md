@@ -82,67 +82,6 @@ spring.jpa.hibernate.ddl-auto=update
 
 App runs at: `http://localhost:8081`
 
-## 🔌 API Endpoints
-Base URL: `http://localhost:8081/api/profiles`
-
-### USER DASHBOARD
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/{userId}/dashboard` | Returns combined Profile + Auth + Reservation data |
-
-**Headers Required:**
-
-Authorization: Bearer <JWT_TOKEN>
-
-**Request Body:**
-
-
-```json
-{
-    "profile": {
-        "fullName": "Isitha",
-        "businessDescription": "Sci-Fi Sellers",
-        "profileImageUrl": "logo.png",
-        "websiteUrl": "www.isithabooks.lk"
-    },
-    "accountDetails": {
-        "email": "isitha@test.com",
-        "companyName": "Isitha Global",
-        "owner": "Isitha Owner",
-        "role": "User"
-    },
-    "myReservations": [],
-    "totalReservations": 0
-}
-```
-
-### EXTENDED PROFILE MANAGEMENT
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| PUT | `{userId}` | Update Complete Profile (Basic + Rich Info) |
-| PATCH | `/{userId}/rich-info` | Update Logo, Bio, Website (Partial Update) |
-| PUT | `/{userId}/genres` | Update Literary Genres |
-
-### Complete Update Body (PUT):
-```json
-{
-    "fullName": "Isitha Updated",
-    "companyName": "New Tech Corp",
-    "address": "Kandy, Sri Lanka",
-    "businessDescription": "We are the best tech book sellers.",
-    "profileImageUrl": "https://example.com/logo.png",
-    "websiteUrl": "www.mybooks.lk"
-}
-```
-### Basic CRUD
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/` | Create new profile (Internal use) |
-| GET | `/{userId}` | Get basic profile|
-| DELETE | `/{userId}` | Delete profile |
 
 ## 🔗 Service Integration Map
 
