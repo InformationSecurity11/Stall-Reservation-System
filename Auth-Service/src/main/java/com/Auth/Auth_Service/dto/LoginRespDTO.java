@@ -13,4 +13,5 @@ public class LoginRespDTO {
     private String message;
     private String error;
     private String token; // token returned on login
+    private UserRespDTO user;
 }

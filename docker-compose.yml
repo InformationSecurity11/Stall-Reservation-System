@@ -20,21 +20,24 @@ services:
       retries: 10
       interval: 10s
 
-  mongodb_profile:
-    image: mongo:6.0
-    container_name: stall-mongodb-profile
+  mysql-profile:
+    image: mysql:8.0
+    container_name: stall-mysql-profile
     environment:
-      MONGO_INITDB_DATABASE: profile_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookfair_db  # Matches your local application.properties
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppassword
     ports:
-      - "27017:27017"
+      - "3307:3306" # Exposed on 3307 to avoid conflict with main MySQL on host
     volumes:
-      - mongodb_profile_data:/data/db
+      - mysql_profile_data:/var/lib/mysql
     networks:
       - stall-network
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      timeout: 10s
-      retries: 5
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
       interval: 10s
 
   mongodb_stall:
@@ -98,6 +101,7 @@ services:
       - stall-network
     restart: unless-stopped
 
+  # UPDATED: Profile Service now connects to MySQL
   profile-management-service:
     build:
       context: ./profile-management-service
@@ -106,11 +110,17 @@ services:
     ports:
       - "8081:8081"
     environment:
-      MONGODB_URI: mongodb://mongodb_profile:27017/profile_db
+      # MySQL Configuration matching mysql-profile container
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-profile:3306/bookfair_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppassword
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
       SPRING_APPLICATION_NAME: profile-management-service
       SERVER_PORT: 8081
     depends_on:
-      mongodb_profile:
+      mysql-profile:
         condition: service_healthy
     networks:
       - stall-network
@@ -192,5 +202,5 @@ networks:
 
 volumes:
   mysql_data:
-  mongodb_profile_data:
+  mysql_profile_data:
   mongodb_stall_data:

@@ -60,40 +60,6 @@ profile-management-service/
 └── README.md
 ```
 
-## ⚙️ Configuration
-```properties
-server.port=8081
-spring.application.name=profile-management-service
-
-# MySQL Connection
-spring.datasource.url=jdbc:mysql://127.0.0.1:3306/bookfair_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
-```
-
-## 🚀 Run the Application
-
-### Using Maven
-```bash
-./mvnw clean install
-./mvnw spring-boot:run
-```
-
-App runs at: `http://localhost:8081`
-
-
-## 🔗 Service Integration Map
-
-### Auth Service (Port 9090):
-
-Profile Service sends GET /api/auth/user/details with the User's Token to verify identity and get official account details.
-
-### Reservation Service (Port 8083):
-
-Profile Service sends GET /api/reservations/user/{id} to fetch booking history for the dashboard.
-
-
 ## Final Endpoints
 
 ## Base URL: http://localhost:8081/api/profiles
@@ -108,7 +74,6 @@ Profile Service sends GET /api/reservations/user/{id} to fetch booking history f
 | Search          | GET `/search?genre=X`       | None                                                                                  |
 | Dashboard       | GET `/{userId}/dashboard`   | Header: Authorization: Bearer <TOKEN>                                                 |
 | Delete          | DELETE `/{userId}`          | None                                                                                  |
-
 
 ---
 

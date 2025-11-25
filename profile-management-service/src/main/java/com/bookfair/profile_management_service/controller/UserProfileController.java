@@ -1,11 +1,14 @@
-package com.bookfair.profile_management_service.controller; 
+package com.bookfair.profile_management_service.controller;
 
+import com.bookfair.profile_management_service.dto.RichProfileRequest;
+import com.bookfair.profile_management_service.dto.VendorDashboardDTO;
 import com.bookfair.profile_management_service.model.UserProfile;
 import com.bookfair.profile_management_service.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -33,7 +36,6 @@ public class UserProfileController {
     }
 
     // --- 3. EDIT COMPLETE PROFILE (Basic + Rich Info) ---
-    // UPDATED: This now handles Name/Address AND Logo/Bio updates in one request.
     @PutMapping("/{userId}")
     public ResponseEntity<UserProfile> updateProfile(@PathVariable String userId, 
                                                      @RequestBody UserProfile updatedData) {
@@ -45,7 +47,7 @@ public class UserProfileController {
          if (updatedData.getCompanyName() != null) existingProfile.setCompanyName(updatedData.getCompanyName());
          if (updatedData.getAddress() != null) existingProfile.setAddress(updatedData.getAddress());
          
-         // --- Rich Info Updates (NEWLY ADDED) ---
+         // --- Rich Info Updates ---
          if (updatedData.getBusinessDescription() != null) existingProfile.setBusinessDescription(updatedData.getBusinessDescription());
          if (updatedData.getProfileImageUrl() != null) existingProfile.setProfileImageUrl(updatedData.getProfileImageUrl());
          if (updatedData.getWebsiteUrl() != null) existingProfile.setWebsiteUrl(updatedData.getWebsiteUrl());
@@ -55,21 +57,20 @@ public class UserProfileController {
     }
 
     // --- 4. DELETE PROFILE ---
+    // FIXED: Return type changed from String to ResponseEntity<String>
     @DeleteMapping("/{userId}")
-    public String deleteProfile(@PathVariable String userId) {
+    public ResponseEntity<String> deleteProfile(@PathVariable String userId) {
         service.deleteProfile(userId);
         return ResponseEntity.ok("Profile deleted");
     }
 
     // --- EXTENDED FEATURES ---
 
-    // Specific Rich Info Update (You can keep this for partial updates if desired)
     @PatchMapping("/{userId}/rich-info")
     public ResponseEntity<UserProfile> updateRichInfo(@PathVariable String userId, @RequestBody RichProfileRequest request) {
         return ResponseEntity.ok(service.updateRichProfile(userId, request));
     }
 
-    // Add/Update Genres
     @PutMapping("/{userId}/genres")
     public ResponseEntity<UserProfile> updateGenres(@PathVariable String userId, @RequestBody List<String> genres) {
         UserProfile profile = service.getProfile(userId);
@@ -77,7 +78,6 @@ public class UserProfileController {
         return ResponseEntity.ok(service.saveProfile(profile));
     }
     
-    // Public Search
     @GetMapping("/search")
     public ResponseEntity<List<UserProfile>> searchVendors(@RequestParam String genre) {
         return ResponseEntity.ok(service.searchByGenre(genre));
@@ -89,7 +89,6 @@ public class UserProfileController {
             @PathVariable String userId,
             @RequestHeader(value = "Authorization", required = false) String token) {
         
-        // Debug logs
         System.out.println("DEBUG: Dashboard Request for " + userId);
         return ResponseEntity.ok(service.getVendorDashboard(userId, token));
     }

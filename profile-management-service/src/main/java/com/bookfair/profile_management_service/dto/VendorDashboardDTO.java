@@ -8,6 +8,6 @@ import java.util.List;
 public class VendorDashboardDTO {
     private UserProfile profile;
     private List<Object> myReservations; 
-    private AuthUserDTO accountDetails; // Ensure AuthUserDTO.java also exists in this folder!
+    private AuthUserDTO accountDetails;
     private int totalReservations;
 }
