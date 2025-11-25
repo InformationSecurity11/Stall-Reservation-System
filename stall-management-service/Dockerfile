@@ -1,5 +1,5 @@
 # Multi-stage build for Stall Management Service
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+FROM maven:3.9.2-eclipse-temurin-17 AS builder
 
 WORKDIR /build
 
@@ -14,7 +14,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
@@ -23,10 +23,6 @@ COPY --from=builder /build/target/*.jar app.jar
 
 # Expose port
 EXPOSE 8082
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:8082/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
