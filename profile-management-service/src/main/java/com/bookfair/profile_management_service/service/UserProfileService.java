@@ -1,4 +1,4 @@
-package com.bookfair.profile_management_service.service; // Updated Package
+package com.bookfair.profile_management_service.service;
 
 import com.bookfair.profile_management_service.dto.AuthUserDTO;
 import com.bookfair.profile_management_service.dto.RichProfileRequest;
@@ -11,6 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,20 +22,23 @@ public class UserProfileService {
     @Autowired
     private UserProfileRepository repository;
     
+    // Tool for making HTTP calls to other microservices
     private final RestTemplate restTemplate = new RestTemplate();
 
-    // --- BASIC CRUD ---
+    // --- 1. BASIC CRUD OPERATIONS ---
+
     public UserProfile getProfile(String userId) { 
-        return repository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found: " + userId)); 
+        return repository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId)); 
     }
     
     public UserProfile saveProfile(UserProfile profile) {
         String r = profile.getRole();
-        // Validate Role
+        // Validate Role (Must be Admin or User)
         if (r == null || (!r.equalsIgnoreCase("Admin") && !r.equalsIgnoreCase("User"))) {
             throw new IllegalArgumentException("Invalid Role: " + r + ". Role must be 'Admin' or 'User'.");
         }
-        // Normalize Role
+        // Normalize Role casing
         if (r.equalsIgnoreCase("Admin")) profile.setRole("Admin");
         if (r.equalsIgnoreCase("User")) profile.setRole("User");
         
@@ -44,8 +50,11 @@ public class UserProfileService {
         repository.delete(p); 
     }
     
+    // --- 2. EXTENDED PROFILE FEATURES ---
+
     public UserProfile updateRichProfile(String userId, RichProfileRequest request) {
         UserProfile p = getProfile(userId);
+        // Partial update: only set fields if they are not null
         if (request.getBusinessDescription() != null) p.setBusinessDescription(request.getBusinessDescription());
         if (request.getProfileImageUrl() != null) p.setProfileImageUrl(request.getProfileImageUrl());
         if (request.getWebsiteUrl() != null) p.setWebsiteUrl(request.getWebsiteUrl());
@@ -57,48 +66,66 @@ public class UserProfileService {
         return repository.findByLiteraryGenresContaining(genre); 
     }
 
-    // --- AGGREGATOR: DASHBOARD ---
+    // --- 3. AGGREGATOR: VENDOR DASHBOARD ---
+    // Fetches data from Profile DB + Reservation Service + Auth Service
     public VendorDashboardDTO getVendorDashboard(String userId, String token) {
         VendorDashboardDTO dashboard = new VendorDashboardDTO();
 
+        // A. Get Local Profile Data (MySQL)
         UserProfile profile = getProfile(userId);
         dashboard.setProfile(profile);
 
-        // Call Reservation Service
+        // B. Call Reservation Service (Port 8083)
+        // Logic: No Security Token needed here (Internal Open API)
         String reservationUrl = "http://localhost:8083/api/reservations/user/" + userId;
+        
         try {
+            // Simple GET request
             List<Object> reservations = restTemplate.getForObject(reservationUrl, List.class);
             dashboard.setMyReservations(reservations);
-            dashboard.setTotalReservations(reservations != null ? reservations.size() : 0);
+            
+            // Calculate total count
+            if (reservations != null) {
+                dashboard.setTotalReservations(reservations.size());
+            } else {
+                dashboard.setTotalReservations(0);
+            }
+
         } catch (Exception e) {
+            // Graceful Fallback: If service is down, don't crash the dashboard
+            System.err.println("DEBUG ERROR: Reservation Call Failed: " + e.getMessage());
             dashboard.setMyReservations(Collections.emptyList());
             dashboard.setTotalReservations(0);
         }
 
-        // Call Auth Service
+        // C. Call Auth Service (Port 9090)
+        // Logic: Security Token IS needed here (Protected API)
         if (profile.getEmail() != null) {
             String authUrl = "http://localhost:9090/api/auth/user/details?email=" + profile.getEmail();
             
-            // DEBUG LOGS
-            System.out.println("DEBUG: Calling Auth Service: " + authUrl);
-            System.out.println("DEBUG: Using Token: " + token);
-            
             try {
+                // Prepare Headers with the Token
                 HttpHeaders headers = new HttpHeaders();
                 if (token != null) {
                     headers.set("Authorization", token);
                 }
                 HttpEntity<String> entity = new HttpEntity<>(headers);
 
+                // Send Authenticated Request using exchange()
                 ResponseEntity<AuthUserDTO> authResponse = restTemplate.exchange(
-                    authUrl, HttpMethod.GET, entity, AuthUserDTO.class
+                    authUrl, 
+                    HttpMethod.GET, 
+                    entity, 
+                    AuthUserDTO.class
                 );
                 
                 dashboard.setAccountDetails(authResponse.getBody());
             } catch (Exception e) {
                 System.err.println("DEBUG ERROR: Auth Call Failed: " + e.getMessage());
+                // accountDetails will remain null, which is safer than crashing
             }
         }
+
         return dashboard;
     }
 }
