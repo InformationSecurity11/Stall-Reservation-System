@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: stall-management-service
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://mongodb_stall:27017/stall_db}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  security:
+    user:
+      name: ignored
+      password: ignored
+
+server:
+  port: ${SERVER_PORT:8082}
+  servlet:
+    context-path: /
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.bookfair.stallmanagement: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
