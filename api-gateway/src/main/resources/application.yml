@@ -1,0 +1,75 @@
+server:
+  port: 8000
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      routes:
+        # Auth Service
+        - id: auth-service
+          uri: http://auth-service:8080
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<path>.*), /api/auth/$\{path}
+
+        # Profile Service
+        - id: profile-service
+          uri: http://profile-management-service:8081
+          predicates:
+            - Path=/api/profiles/**
+          filters:
+            - RewritePath=/api/profiles/(?<path>.*), /api/profiles/$\{path}
+
+        # Reservation Service
+        - id: reservation-service
+          uri: http://reservation-management-service:8083
+          predicates:
+            - Path=/api/reservations/**
+          filters:
+            - RewritePath=/api/reservations/(?<path>.*), /api/reservations/$\{path}
+
+        # Stall Service
+        - id: stall-service
+          uri: http://stall-management-service:8082
+          predicates:
+            - Path=/api/stalls/**
+          filters:
+            - RewritePath=/api/stalls/(?<path>.*), /api/stalls/$\{path}
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:3000
+              - http://localhost:3001
+              - http://localhost:5173
+              - http://localhost:5174
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            exposedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 3600
+            allowCredentialsExplicitly: true
+
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
+

@@ -219,18 +219,18 @@ export default function Reserve() {
   }
 
   return (
-  <div className="min-h-screen flex flex-col bg-[linear-gradient(135deg,rgba(124,58,237,0.04),rgba(16,185,129,0.03),rgba(236,72,153,0.04))]">
+  <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
 
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-4">
           {/* Hero Section */}
           <div className="mb-12 text-center">
-            <Badge variant="outline" className="mb-4 px-4 py-2 text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <Badge variant="outline" className="mb-4 px-4 py-2 text-sm font-semibold text-blue-700 border-blue-200 bg-blue-50">
               <Sparkles className="w-4 h-4 mr-2" />
               Colombo BookFair 2026
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
               Reserve Your Perfect Stall
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -240,10 +240,10 @@ export default function Reserve() {
 
             {/* Stats Bar */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <Card className="p-4 border-2 border-[rgba(124,58,237,0.06)] hover:border-[rgba(124,58,237,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[rgba(124,58,237,0.08)] flex items-center justify-center">
-                    <Grid3x3 className="w-6 h-6 text-[rgb(124,58,237)]" />
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <Grid3x3 className="w-6 h-6 text-blue-600" />
                   </div>
                   <div className="text-left">
                     <p className="text-2xl font-bold text-foreground">{stats.total}</p>
@@ -252,10 +252,10 @@ export default function Reserve() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(16,185,129,0.06)] hover:border-[rgba(16,185,129,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[rgba(16,185,129,0.08)] flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-[rgb(16,185,129)]" />
+                  <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-green-600" />
                   </div>
                   <div className="text-left">
                     <p className="text-2xl font-bold text-foreground">{stats.available}</p>
@@ -264,10 +264,10 @@ export default function Reserve() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(236,72,153,0.06)] hover:border-[rgba(236,72,153,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[rgba(236,72,153,0.08)] flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-[rgb(236,72,153)]" />
+                  <div className="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-pink-600" />
                   </div>
                   <div className="text-left">
                     <p className="text-2xl font-bold text-foreground">{stats.premium}</p>
@@ -276,10 +276,10 @@ export default function Reserve() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(124,58,237,0.06)] hover:border-[rgba(124,58,237,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[rgba(124,58,237,0.08)] flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-[rgb(124,58,237)]" />
+                  <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-indigo-600" />
                   </div>
                   <div className="text-left">
                     <p className="text-2xl font-bold text-foreground">{stats.popular}</p>
@@ -291,7 +291,7 @@ export default function Reserve() {
           </div>
 
           {/* Search and Filters */}
-          <div className="mb-8 space-y-4">
+            <div className="mb-8 space-y-4">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search */}
               <div className="relative flex-1">
@@ -319,9 +319,9 @@ export default function Reserve() {
 
               {/* Filter Button */}
               <Button
-                variant="ghost"
+                variant="gradient"
                 onClick={() => setShowFilters(!showFilters)}
-                className="h-12 gap-2 bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white shadow-sm hover:shadow-lg transition-shadow duration-200"
+                className="h-12 gap-2 shadow-sm hover:shadow-lg transition-shadow duration-200"
               >
                 <Filter className="w-5 h-5" />
                 Filters
@@ -338,7 +338,7 @@ export default function Reserve() {
                   variant={viewMode === "grid" ? "default" : "outline"}
                   size="icon"
                   onClick={() => setViewMode("grid")}
-                  className={`h-12 w-12 ${viewMode === "grid" ? 'bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(16,185,129)] text-white' : ''}`}
+                  className="h-12 w-12"
                 >
                   <Grid3x3 className="w-5 h-5" />
                 </Button>
@@ -346,7 +346,7 @@ export default function Reserve() {
                   variant={viewMode === "list" ? "default" : "outline"}
                   size="icon"
                   onClick={() => setViewMode("list")}
-                  className={`h-12 w-12 ${viewMode === "list" ? 'bg-gradient-to-r from-[rgb(236,72,153)] to-[rgb(124,58,237)] text-white' : ''}`}
+                  className="h-12 w-12"
                 >
                   <List className="w-5 h-5" />
                 </Button>
@@ -355,7 +355,7 @@ export default function Reserve() {
 
             {/* Filters Panel */}
             {showFilters && (
-              <Card className="p-6 border-2 animate-fade-in bg-[rgba(255,255,255,0.02)]">
+              <div className="p-6 animate-fade-in bg-white rounded-lg shadow">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Hall Filter */}
                   <div className="space-y-3">
@@ -391,7 +391,7 @@ export default function Reserve() {
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             )}
           </div>
 
@@ -430,15 +430,14 @@ export default function Reserve() {
                   ))}
                 </div>
               ) : (
-        <Card className="p-12 text-center border-2 border-dashed bg-[linear-gradient(180deg,rgba(255,255,255,0.01),rgba(124,58,237,0.02))]">
+        <Card className="p-12 text-center border-2 border-dashed bg-gray-50">
                   <MapPin className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
                   <h3 className="text-xl font-bold mb-2">No Stalls Found</h3>
                   <p className="text-muted-foreground mb-6">
                     Try adjusting your search or filters
                   </p>
                   <Button
-          variant="ghost"
-          className="bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
+                    variant="gradient"
                     onClick={() => {
                       setSearchQuery("")
                       setSelectedHall("All")

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Button } from "@/components/ui/button"
+import CustomButton from "@/components/ui/CustomButton"
+import CustomButton2 from "@/components/ui/CustomButton2"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -178,7 +180,7 @@ export default function Booking() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[linear-gradient(135deg,rgba(124,58,237,0.04),rgba(16,185,129,0.03),rgba(236,72,153,0.04))]">
+  <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
 
       <main className="flex-1 pt-24 pb-16">
@@ -187,12 +189,12 @@ export default function Booking() {
           <div className="mb-12 text-center">
             <Badge
               variant="outline"
-              className="mb-4 px-4 py-2 text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]"
+              className="mb-4 px-4 py-2 text-sm font-semibold text-blue-700 border-blue-200 bg-blue-50"
             >
               <Package className="w-4 h-4 mr-2" />
               My Bookings
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
               Manage Your Stall Bookings
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -202,7 +204,7 @@ export default function Booking() {
 
             {/* Stats Bar */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <Card className="p-4 border-2 border-[rgba(124,58,237,0.06)] hover:border-[rgba(124,58,237,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:scale-105">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl bg-[rgba(124,58,237,0.08)] flex items-center justify-center">
                     <Package className="w-6 h-6 text-[rgb(124,58,237)]" />
@@ -214,7 +216,7 @@ export default function Booking() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(16,185,129,0.06)] hover:border-[rgba(16,185,129,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:scale-105">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl bg-[rgba(16,185,129,0.08)] flex items-center justify-center">
                     <CheckCircle2 className="w-6 h-6 text-[rgb(16,185,129)]" />
@@ -226,7 +228,7 @@ export default function Booking() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(236,72,153,0.06)] hover:border-[rgba(236,72,153,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:scale-105">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl bg-[rgba(236,72,153,0.08)] flex items-center justify-center">
                     <TrendingUp className="w-6 h-6 text-[rgb(236,72,153)]" />
@@ -238,7 +240,7 @@ export default function Booking() {
                 </div>
               </Card>
 
-              <Card className="p-4 border-2 border-[rgba(124,58,237,0.06)] hover:border-[rgba(124,58,237,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:scale-105">
+              <Card className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl bg-[rgba(124,58,237,0.08)] flex items-center justify-center">
                     <DollarSign className="w-6 h-6 text-[rgb(124,58,237)]" />
@@ -260,24 +262,18 @@ export default function Booking() {
             <div className="flex items-center justify-center gap-2">
               <Button
                 variant={activeTab === "active" ? "default" : "outline"}
+                size="lg"
                 onClick={() => setActiveTab("active")}
-                className={`px-8 h-12 ${
-                  activeTab === "active"
-                    ? "bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(16,185,129)] text-white shadow-lg"
-                    : ""
-                }`}
+                className="px-8"
               >
                 <CheckCircle2 className="w-5 h-5 mr-2" />
                 Active Bookings
               </Button>
               <Button
                 variant={activeTab === "past" ? "default" : "outline"}
+                size="lg"
                 onClick={() => setActiveTab("past")}
-                className={`px-8 h-12 ${
-                  activeTab === "past"
-                    ? "bg-gradient-to-r from-[rgb(236,72,153)] to-[rgb(124,58,237)] text-white shadow-lg"
-                    : ""
-                }`}
+                className="px-8"
               >
                 <Clock className="w-5 h-5 mr-2" />
                 Past Bookings
@@ -298,9 +294,9 @@ export default function Booking() {
               </div>
 
               <Button
-                variant="ghost"
+                variant="gradient"
                 onClick={() => setShowFilters(!showFilters)}
-                className="h-12 gap-2 bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white shadow-sm hover:shadow-lg transition-shadow duration-200"
+                  className="gap-2 shadow-sm hover:shadow-lg transition-shadow duration-200"
               >
                 <Filter className="w-5 h-5" />
                 Filters
@@ -312,8 +308,8 @@ export default function Booking() {
               </Button>
 
               <Button
-                variant="ghost"
-                className="h-12 gap-2 bg-gradient-to-r from-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white shadow-sm hover:shadow-lg transition-shadow duration-200"
+                variant="gradient"
+                  className="gap-2 shadow-sm hover:shadow-lg transition-shadow duration-200"
                 onClick={() => navigate("/reserve")}
               >
                 <Sparkles className="w-5 h-5" />
@@ -323,7 +319,7 @@ export default function Booking() {
 
             {/* Filters Panel */}
             {showFilters && (
-              <Card className="p-6 border-2 animate-fade-in bg-[rgba(255,255,255,0.03)] backdrop-blur-sm">
+              <Card className="p-6 animate-fade-in">
                 <div className="space-y-3">
                   <label className="text-sm font-semibold text-foreground">Status</label>
                   <div className="flex flex-wrap gap-2">
@@ -333,11 +329,6 @@ export default function Booking() {
                         variant={selectedStatus === status ? "default" : "outline"}
                         size="sm"
                         onClick={() => setSelectedStatus(status)}
-                        className={
-                          selectedStatus === status
-                            ? "bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(16,185,129)] text-white"
-                            : ""
-                        }
                       >
                         {status}
                       </Button>
@@ -366,15 +357,12 @@ export default function Booking() {
                   const StatusIcon = statusStyle.icon
 
                   return (
-                    <Card
-                      key={booking.id}
-                      className="p-6 border-2 border-[rgba(124,58,237,0.06)] hover:border-[rgba(124,58,237,0.18)] bg-[rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] group"
-                    >
+                    <Card key={booking.id} className="p-6">
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+                            <h3 className="text-xl font-bold text-blue-700">
                               {booking.stallName}
                             </h3>
                             <Badge
@@ -416,7 +404,7 @@ export default function Booking() {
                         <div className="pt-3 border-t border-border">
                           <div className="flex items-center justify-between">
                             <span className="text-lg font-bold text-foreground">Total Price</span>
-                            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(16,185,129)] to-[rgb(236,72,153)]">
+                            <span className="text-2xl font-bold text-green-700">
                               ${booking.price.toLocaleString()}
                             </span>
                           </div>
@@ -425,25 +413,24 @@ export default function Booking() {
 
                       {/* Actions */}
                       <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          onClick={() => console.log("View details:", booking.id)}
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Details
-                        </Button>
-                        {booking.qrCode && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="flex-1 bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(16,185,129)] text-white"
-                            onClick={() => console.log("Download QR:", booking.qrCode)}
+                        <div className="flex-1">
+                          <CustomButton2
+                            onClick={() => console.log("View details:", booking.id)}
+                            className="flex items-center justify-center gap-2"
                           >
-                            <Download className="w-4 h-4 mr-2" />
-                            QR Code
-                          </Button>
+                            <Eye className="w-4 h-4" />
+                            <span>View Details</span>
+                          </CustomButton2>
+                        </div>
+                        {booking.qrCode && (
+                          <div className="flex-1">
+                            <CustomButton onClick={() => console.log("Download QR:", booking.qrCode)}>
+                              <div className="flex items-center justify-center gap-2">
+                                <Download className="w-4 h-4" />
+                                <span>QR Code</span>
+                              </div>
+                            </CustomButton>
+                          </div>
                         )}
                         {booking.status === "pending" && (
                           <Button
@@ -461,7 +448,7 @@ export default function Booking() {
                 })}
               </div>
             ) : (
-              <Card className="p-12 text-center border-2 border-dashed bg-[rgba(255,255,255,0.03)] backdrop-blur-sm">
+        <Card className="p-12 text-center border-2 border-dashed">
                 <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
                 <h3 className="text-xl font-bold mb-2">No Bookings Found</h3>
                 <p className="text-muted-foreground mb-6">
@@ -470,8 +457,7 @@ export default function Booking() {
                     : "You don't have any past bookings."}
                 </p>
                 <Button
-                  variant="ghost"
-                  className="bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
+          variant="gradient"
                   onClick={() => navigate("/reserve")}
                 >
                   <Sparkles className="w-5 h-5 mr-2" />

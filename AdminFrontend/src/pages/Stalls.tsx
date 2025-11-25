@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -40,21 +40,20 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useAllStalls, useCreateStall, useUpdateStall, useDeleteStall, useUpdateStallStatus } from '@/services/apiHooks';
 
-// Mock data
-const mockStalls = [
-  { id: 'S-001', size: 'Small', status: 'Available' },
-  { id: 'S-002', size: 'Small', status: 'Reserved' },
-  { id: 'S-003', size: 'Medium', status: 'Available' },
-  { id: 'S-004', size: 'Medium', status: 'Reserved' },
-  { id: 'S-005', size: 'Large', status: 'Available' },
-  { id: 'S-006', size: 'Large', status: 'Reserved' },
-  { id: 'S-007', size: 'Small', status: 'Unavailable' },
-  { id: 'S-008', size: 'Medium', status: 'Available' },
-];
+interface Stall {
+  id: string;
+  size: string;
+  price?: number;
+  status: string;
+  location?: string;
+  description?: string;
+}
 
 const Stalls = () => {
-  const [stalls, setStalls] = useState(mockStalls);
+  const { data: apiStalls, loading: stallsLoading, execute: refetchStalls } = useAllStalls(true);
+  const [stalls, setStalls] = useState<Stall[]>([]);
   const [sizeFilter, setSizeFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedStall, setSelectedStall] = useState<string | null>(null);
@@ -66,15 +65,30 @@ const Stalls = () => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
+  // API hooks
+  const { createStall, loading: createLoading } = useCreateStall();
+  const { updateStall, loading: updateLoading } = useUpdateStall();
+  const { deleteStall, loading: deleteLoading } = useDeleteStall();
+  const { updateStatus, loading: statusLoading } = useUpdateStallStatus();
+
   // Create form
   const [newId, setNewId] = useState('');
+  const [newPrice, setNewPrice] = useState<number | null>(null);
   const [newSize, setNewSize] = useState<string>('Small');
   const [newStatus, setNewStatus] = useState<string>('Available');
 
   // Edit form
   const [editId, setEditId] = useState<string | null>(null);
+  const [editPrice, setEditPrice] = useState<number | null>(null);
   const [editSize, setEditSize] = useState<string>('Small');
   const [editStatus, setEditStatus] = useState<string>('Available');
+
+  // Update stalls when API data changes
+  useEffect(() => {
+    if (apiStalls) {
+      setStalls(apiStalls);
+    }
+  }, [apiStalls]);
 
   const openEditDialog = () => {
     if (!selectedStall) {
@@ -84,13 +98,14 @@ const Stalls = () => {
     const s = stalls.find((x) => x.id === selectedStall);
     if (s) {
       setEditId(s.id);
+      setEditPrice(s.price || 0);
       setEditSize(s.size);
       setEditStatus(s.status);
       setShowEditDialog(true);
     }
   };
 
-  const confirmCreate = () => {
+  const confirmCreate = async () => {
     if (!newId.trim()) {
       toast({ title: 'Invalid ID', description: 'Please provide a valid Stall ID.' });
       return;
@@ -99,30 +114,65 @@ const Stalls = () => {
       toast({ title: 'Duplicate ID', description: 'A stall with this ID already exists.' });
       return;
     }
-    setStalls([...stalls, { id: newId, size: newSize, status: newStatus }]);
-    toast({ title: 'Stall created', description: `Stall ${newId} created.` });
-    setShowCreateDialog(false);
-    setNewId('');
-    setNewSize('Small');
-    setNewStatus('Available');
+
+    try {
+      await createStall({
+        size: newSize,
+        price: newPrice || 0,
+        location: newId,
+        description: `${newSize} stall`,
+      });
+      toast({ title: 'Stall created', description: `Stall ${newId} created successfully.` });
+      await refetchStalls();
+      setShowCreateDialog(false);
+      setNewId('');
+      setNewPrice(0);
+      setNewSize('Small');
+      setNewStatus('Available');
+    } catch (error: any) {
+      toast({
+        title: 'Failed to create stall',
+        description: error?.message || 'An error occurred',
+        variant: 'destructive',
+      });
+    }
   };
 
-  const confirmEdit = () => {
+  const confirmEdit = async () => {
     if (!editId) return;
-    setStalls(
-      stalls.map((s) => (s.id === editId ? { ...s, size: editSize, status: editStatus } : s))
-    );
-    toast({ title: 'Stall updated', description: `Stall ${editId} updated.` });
-    setShowEditDialog(false);
-    setEditId(null);
+    try {
+      await updateStall(editId, {
+        size: editSize,
+        price: editPrice || 0,
+      });
+      toast({ title: 'Stall updated', description: `Stall ${editId} updated successfully.` });
+      await refetchStalls();
+      setShowEditDialog(false);
+      setEditId(null);
+    } catch (error: any) {
+      toast({
+        title: 'Failed to update stall',
+        description: error?.message || 'An error occurred',
+        variant: 'destructive',
+      });
+    }
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!selectedStall) return;
-    setStalls(stalls.filter((s) => s.id !== selectedStall));
-    toast({ title: 'Stall deleted', description: `Stall ${selectedStall} deleted.` });
-    setSelectedStall(null);
-    setShowDeleteDialog(false);
+    try {
+      await deleteStall(selectedStall);
+      toast({ title: 'Stall deleted', description: `Stall ${selectedStall} deleted successfully.` });
+      await refetchStalls();
+      setSelectedStall(null);
+      setShowDeleteDialog(false);
+    } catch (error: any) {
+      toast({
+        title: 'Failed to delete stall',
+        description: error?.message || 'An error occurred',
+        variant: 'destructive',
+      });
+    }
   };
 
   const filteredStalls = stalls.filter((stall) => {
@@ -136,17 +186,22 @@ const Stalls = () => {
     setShowDialog(true);
   };
 
-  const confirmMarkUnavailable = () => {
+  const confirmMarkUnavailable = async () => {
     if (selectedStall) {
-      setStalls(
-        stalls.map((stall) =>
-          stall.id === selectedStall ? { ...stall, status: 'Unavailable' } : stall
-        )
-      );
-      toast({
-        title: 'Stall marked as unavailable',
-        description: `Stall ${selectedStall} is now unavailable for maintenance.`,
-      });
+      try {
+        await updateStatus(selectedStall, 'Unavailable');
+        toast({
+          title: 'Stall marked as unavailable',
+          description: `Stall ${selectedStall} is now unavailable for maintenance.`,
+        });
+        await refetchStalls();
+      } catch (error: any) {
+        toast({
+          title: 'Failed to update status',
+          description: error?.message || 'An error occurred',
+          variant: 'destructive',
+        });
+      }
     }
     setShowDialog(false);
     setSelectedStall(null);
@@ -198,8 +253,14 @@ const Stalls = () => {
             </div>
 
             <div className="flex gap-2 ml-auto">
-              <Button onClick={() => setShowCreateDialog(true)}>Create Stall</Button>
-              <Button variant="outline" onClick={openEditDialog} disabled={!selectedStall}>
+              <Button onClick={() => setShowCreateDialog(true)} disabled={createLoading}>
+                Create Stall
+              </Button>
+              <Button
+                variant="outline"
+                onClick={openEditDialog}
+                disabled={!selectedStall || updateLoading}
+              >
                 Edit Stall
               </Button>
               <Button
@@ -211,7 +272,7 @@ const Stalls = () => {
                   }
                   setShowDeleteDialog(true);
                 }}
-                disabled={!selectedStall}
+                disabled={!selectedStall || deleteLoading}
               >
                 Delete Stall
               </Button>
@@ -259,36 +320,45 @@ const Stalls = () => {
           <CardTitle>Stalls ({filteredStalls.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Stall ID</TableHead>
-                <TableHead>Size</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredStalls.map((stall) => (
-                <TableRow key={stall.id}>
-                  <TableCell className="font-medium">{stall.id}</TableCell>
-                  <TableCell>{stall.size}</TableCell>
-                  <TableCell>{getStatusBadge(stall.status)}</TableCell>
-                  <TableCell className="text-right">
-                    {stall.status === 'Available' && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleMarkUnavailable(stall.id)}
-                      >
-                        Mark Unavailable
-                      </Button>
-                    )}
-                  </TableCell>
+          {stallsLoading ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Loading stalls...</p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Stall ID</TableHead>
+                  <TableHead>Size</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredStalls.map((stall) => (
+                  <TableRow key={stall.id}>
+                    <TableCell className="font-medium">{stall.id}</TableCell>
+                    <TableCell>{stall.size}</TableCell>
+                    <TableCell>{getStatusBadge(stall.status)}</TableCell>
+                    <TableCell className="text-right">{stall.price || '-'}</TableCell>
+                    <TableCell className="text-right">
+                      {stall.status === 'Available' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleMarkUnavailable(stall.id)}
+                          disabled={statusLoading}
+                        >
+                          Mark Unavailable
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 
@@ -303,6 +373,14 @@ const Stalls = () => {
             <div>
               <Label>Stall ID</Label>
               <Input value={newId} onChange={(e) => setNewId(e.target.value)} />
+            </div>
+            <div>
+              <Label>Price</Label>
+              <Input
+                type="number"
+                value={newPrice ?? ''}
+                onChange={(e) => setNewPrice(Number(e.target.value))}
+              />
             </div>
             <div>
               <Label>Size</Label>
@@ -332,7 +410,9 @@ const Stalls = () => {
             </div>
           </div>
           <DFooter>
-            <Button onClick={confirmCreate}>Create</Button>
+            <Button onClick={confirmCreate} disabled={createLoading}>
+              {createLoading ? 'Creating...' : 'Create'}
+            </Button>
             <DialogClose asChild>
               <Button variant="ghost">Cancel</Button>
             </DialogClose>
@@ -351,6 +431,14 @@ const Stalls = () => {
             <div>
               <Label>Stall ID</Label>
               <Input value={editId ?? ''} disabled />
+            </div>
+            <div>
+              <Label>Price</Label>
+              <Input
+                type="number"
+                value={editPrice ?? ''}
+                onChange={(e) => setEditPrice(Number(e.target.value))}
+              />
             </div>
             <div>
               <Label>Size</Label>
@@ -380,7 +468,9 @@ const Stalls = () => {
             </div>
           </div>
           <DFooter>
-            <Button onClick={confirmEdit}>Save</Button>
+            <Button onClick={confirmEdit} disabled={updateLoading}>
+              {updateLoading ? 'Saving...' : 'Save'}
+            </Button>
             <DialogClose asChild>
               <Button variant="ghost">Cancel</Button>
             </DialogClose>
@@ -399,7 +489,9 @@ const Stalls = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction onClick={confirmDelete} disabled={deleteLoading}>
+              {deleteLoading ? 'Deleting...' : 'Delete'}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -415,7 +507,9 @@ const Stalls = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmMarkUnavailable}>Confirm</AlertDialogAction>
+            <AlertDialogAction onClick={confirmMarkUnavailable} disabled={statusLoading}>
+              {statusLoading ? 'Updating...' : 'Confirm'}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

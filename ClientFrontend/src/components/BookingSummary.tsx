@@ -3,6 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import CustomButton from "@/components/ui/CustomButton"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, MapPin, DollarSign, X, ShoppingCart, ArrowRight } from "lucide-react"
 import type { Stall } from "./StallCard"
@@ -56,11 +57,11 @@ export default function BookingSummary({
           )}
 
           {selectedStalls.length >= maxStalls && (
-            <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+            <Card className="p-3 bg-yellow-500/10 border-yellow-500/20">
               <p className="text-xs text-yellow-700 dark:text-yellow-400 font-medium">
                 Maximum stall limit reached
               </p>
-            </div>
+            </Card>
           )}
         </div>
 
@@ -89,7 +90,7 @@ export default function BookingSummary({
             {selectedStalls.map((stall) => (
               <div
                 key={stall.id}
-                className="p-3 rounded-xl bg-card border-2 border-border/50 hover:border-primary/30 transition-colors duration-300 group"
+                className="p-3 rounded-xl bg-card/50 border-2 border-border/50 hover:border-primary/30 transition-colors duration-300 group"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -148,7 +149,7 @@ export default function BookingSummary({
               <div className="flex items-center justify-between text-base pt-2">
                 <span className="font-bold text-foreground">Total</span>
                 <div className="text-right">
-                  <p className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  <p className="font-bold text-xl text-green-700">
                     LKR {total.toLocaleString()}
                   </p>
                   <p className="text-xs text-muted-foreground">per day</p>
@@ -162,16 +163,15 @@ export default function BookingSummary({
       <Separator />
 
       <CardFooter className="pt-6">
-        <Button
-          variant="gradient"
-          size="lg"
-          className="w-full group"
+        <CustomButton
           disabled={selectedStalls.length === 0 || !selectedDate}
           onClick={onContinue}
         >
-          Continue to Details
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-        </Button>
+          <div className="flex items-center justify-center gap-2 w-full">
+            <span>Continue to Details</span>
+            <ArrowRight className="w-5 h-5" />
+          </div>
+        </CustomButton>
       </CardFooter>
 
       {/* Help Text */}

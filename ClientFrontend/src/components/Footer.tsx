@@ -115,11 +115,11 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
+              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] bg-clip-text text-transparent">
+                <h3 className="text-xl font-bold text-blue-600">
                   BookFair
                 </h3>
                 <p className="text-xs text-foreground">Reservation System</p>
@@ -163,7 +163,7 @@ export default function Footer() {
 
           {/* Quick Links Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(16,185,129)] to-[rgb(245,158,11)] bg-clip-text text-transparent">Quick Links</h4>
+            <h4 className="text-lg font-bold text-green-600">Quick Links</h4>
             <nav className="space-y-3">
               {quickLinks.map((link, idx) => (
                 <Link
@@ -179,7 +179,7 @@ export default function Footer() {
 
           {/* Resources Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(245,158,11)] to-[rgb(236,72,153)] bg-clip-text text-transparent">Resources</h4>
+            <h4 className="text-lg font-bold text-orange-600">Resources</h4>
             <nav className="space-y-3">
               {resources.map((link, idx) => (
                 <Link
@@ -195,7 +195,7 @@ export default function Footer() {
 
           {/* Newsletter Column */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold bg-gradient-to-r from-[rgb(236,72,153)] to-[rgb(124,58,237)] bg-clip-text text-transparent">Stay Updated</h4>
+            <h4 className="text-lg font-bold text-purple-600">Stay Updated</h4>
             <p className="text-sm text-foreground">
               Subscribe to get event updates and exclusive offers.
             </p>
@@ -255,7 +255,7 @@ export default function Footer() {
       </div>
 
       {/* Gradient Border Bottom */}
-      <div className="h-1 bg-gradient-to-r from-primary via-secondary to-olive" />
+      <div className="h-1 bg-blue-600" />
     </footer>
   )
 }
