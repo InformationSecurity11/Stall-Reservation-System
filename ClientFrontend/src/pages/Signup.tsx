@@ -90,16 +90,16 @@ export function Signup() {
         <div className="flex justify-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] p-0.5 group-hover:scale-110 transition-transform duration-300">
+              <div className="absolute inset-0 bg-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+              <div className="relative w-14 h-14 rounded-2xl bg-blue-600 p-0.5 group-hover:scale-110 transition-transform duration-300">
                 <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
-                  <Sparkles className="w-7 h-7 text-[rgb(124,58,237)] group-hover:text-[rgb(16,185,129)] transition-colors duration-300" />
+                  <Sparkles className="w-7 h-7 text-blue-600 group-hover:text-green-600 transition-colors duration-300" />
                 </div>
               </div>
             </div>
               <div className="flex flex-col">
-              <span className="font-bold text-2xl tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
-                BookFair <span className="text-[rgb(16,185,129)]">Hub</span>
+              <span className="font-bold text-2xl tracking-tight leading-none text-blue-700">
+                BookFair <span className="text-green-600">Hub</span>
               </span>
               <span className="text-xs text-muted-foreground font-medium tracking-wider uppercase">
                 Colombo 2026
@@ -110,7 +110,7 @@ export function Signup() {
 
   <Card className="bg-white p-6 rounded-lg shadow">
           <CardHeader className="space-y-3 pb-6">
-            <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <CardTitle className="text-3xl font-bold text-center text-gray-900">
               Create Your Account
             </CardTitle>
             <CardDescription className="text-center text-base">
@@ -135,7 +135,7 @@ export function Signup() {
                     First Name
                   </Label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 transition-colors duration-300 pointer-events-none" />
                     <Input
                       id="firstName"
                       name="firstName"
@@ -155,7 +155,7 @@ export function Signup() {
                     Last Name
                   </Label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300 pointer-events-none" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 transition-colors duration-300 pointer-events-none" />
                     <Input
                       id="lastName"
                       name="lastName"
@@ -177,7 +177,7 @@ export function Signup() {
                   Email Address
                 </Label>
                 <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="email"
                     name="email"
@@ -198,7 +198,7 @@ export function Signup() {
                   Phone Number
                 </Label>
                 <div className="relative group">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-[rgb(124,58,237)] transition-colors duration-300 pointer-events-none" />
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 transition-colors duration-300 pointer-events-none" />
                   <Input
                     id="phone"
                     name="phone"
@@ -329,14 +329,14 @@ export function Signup() {
                   I agree to the{" "}
                   <Link
                     to="/terms"
-                    className="font-semibold text-[rgb(16,185,129)] hover:text-[rgb(16,185,129)]/80 transition-colors duration-300 hover:underline underline-offset-4"
+                    className="font-semibold text-green-600 hover:text-green-700 transition-colors duration-300 hover:underline underline-offset-4"
                   >
                     Terms & Conditions
                   </Link>{" "}
                   and{" "}
                   <Link
                     to="/privacy"
-                    className="font-semibold text-[rgb(16,185,129)] hover:text-[rgb(16,185,129)]/80 transition-colors duration-300 hover:underline underline-offset-4"
+                    className="font-semibold text-green-600 hover:text-green-700 transition-colors duration-300 hover:underline underline-offset-4"
                   >
                     Privacy Policy
                   </Link>
@@ -374,7 +374,7 @@ export function Signup() {
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] hover:opacity-90 transition-all duration-300 hover:underline underline-offset-4"
+                className="font-semibold text-blue-600 hover:text-blue-700 transition-all duration-300 hover:underline underline-offset-4"
               >
                 Sign in
               </Link>

@@ -226,11 +226,11 @@ export default function Reserve() {
         <div className="container mx-auto px-4">
           {/* Hero Section */}
           <div className="mb-12 text-center">
-            <Badge variant="outline" className="mb-4 px-4 py-2 text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <Badge variant="outline" className="mb-4 px-4 py-2 text-sm font-semibold text-blue-700 border-blue-200 bg-blue-50">
               <Sparkles className="w-4 h-4 mr-2" />
               Colombo BookFair 2026
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-br from-[rgb(124,58,237)] to-[rgb(236,72,153)]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
               Reserve Your Perfect Stall
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -430,7 +430,7 @@ export default function Reserve() {
                   ))}
                 </div>
               ) : (
-        <Card className="p-12 text-center border-2 border-dashed bg-[linear-gradient(180deg,rgba(255,255,255,0.01),rgba(124,58,237,0.02))]">
+        <Card className="p-12 text-center border-2 border-dashed bg-gray-50">
                   <MapPin className="w-16 h-16 mx-auto mb-4 text-muted-foreground/30" />
                   <h3 className="text-xl font-bold mb-2">No Stalls Found</h3>
                   <p className="text-muted-foreground mb-6">

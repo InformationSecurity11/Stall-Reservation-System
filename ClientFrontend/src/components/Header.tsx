@@ -55,11 +55,11 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
+            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg border border-black">
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] bg-clip-text text-muted-foreground">
+              <h1 className="text-xl font-bold text-blue-700">
                 BookFair
               </h1>
               <p className="text-xs text-muted-foreground -mt-1">Reservation System</p>
@@ -76,7 +76,7 @@ export default function Header() {
                 >
                   {link.name}
                   {location.pathname === link.path && (
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-[rgb(124,58,237)] to-[rgb(236,72,153)] rounded-full" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full" />
                   )}
                 </Button>
               </Link>
@@ -102,7 +102,6 @@ export default function Header() {
                 </Button>
                 <Button
                   variant="gradient"
-                  className="bg-gradient-to-r from-[rgb(124,58,237)] via-[rgb(16,185,129)] to-[rgb(236,72,153)] text-white"
                   onClick={() => navigate("/signup")}
                 >
                   Sign Up

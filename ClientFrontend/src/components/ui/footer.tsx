@@ -77,7 +77,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative bg-gradient-to-br from-background via-card to-background border-t border-border/50 overflow-hidden">
+    <footer className="relative bg-background border-t border-border/50 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full filter blur-3xl animate-pulse"></div>
@@ -98,10 +98,10 @@ export default function Footer() {
                 className="text-center group cursor-pointer animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/20 mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                   <stat.icon className="w-7 h-7 text-primary" />
                 </div>
-                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent mb-2">
+                <div className="text-3xl lg:text-4xl font-bold text-foreground mb-2">
                   {stat.value}
                 </div>
                 <div className="text-sm font-medium text-muted-foreground">{stat.label}</div>
@@ -117,8 +117,8 @@ export default function Footer() {
             <div className="lg:col-span-4 space-y-6">
               <Link to="/" className="inline-flex items-center gap-3 group">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-olive rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
-                  <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary via-secondary to-olive p-0.5 group-hover:scale-110 transition-transform duration-300">
+                  <div className="absolute inset-0 bg-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+                  <div className="relative w-14 h-14 rounded-2xl bg-blue-600 p-0.5 group-hover:scale-110 transition-transform duration-300">
                     <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
                       <Sparkles className="w-7 h-7 text-primary group-hover:text-secondary transition-colors duration-300" />
                     </div>
@@ -192,7 +192,7 @@ export default function Footer() {
             <div className="lg:col-span-2 space-y-6">
               <h3 className="font-bold text-foreground text-lg flex items-center gap-2">
                 Quick Links
-                <div className="h-px flex-1 bg-gradient-to-r from-border/50 to-transparent"></div>
+                <div className="h-px flex-1 bg-border/50"></div>
               </h3>
               <ul className="space-y-3">
                 {footerLinks.quickLinks.map((link) => (
@@ -213,7 +213,7 @@ export default function Footer() {
             <div className="lg:col-span-2 space-y-6">
               <h3 className="font-bold text-foreground text-lg flex items-center gap-2">
                 Resources
-                <div className="h-px flex-1 bg-gradient-to-r from-border/50 to-transparent"></div>
+                <div className="h-px flex-1 bg-border/50"></div>
               </h3>
               <ul className="space-y-3">
                 {footerLinks.resources.map((link) => (
@@ -234,7 +234,7 @@ export default function Footer() {
             <div className="lg:col-span-4 space-y-6">
               <h3 className="font-bold text-foreground text-lg flex items-center gap-2">
                 Stay Updated
-                <div className="h-px flex-1 bg-gradient-to-r from-border/50 to-transparent"></div>
+                <div className="h-px flex-1 bg-border/50"></div>
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Subscribe to our newsletter for the latest updates, vendor tips, and exclusive early-bird offers.
@@ -243,7 +243,7 @@ export default function Footer() {
               {/* Newsletter Form */}
               <form onSubmit={handleSubscribe} className="space-y-4">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-olive rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
                   <div className="relative flex gap-2">
                     <div className="relative flex-1">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -259,7 +259,7 @@ export default function Footer() {
                     <Button
                       type="submit"
                       size="lg"
-                      className="h-12 px-6 rounded-xl bg-gradient-to-r from-primary via-secondary to-olive hover:shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 group"
+                      className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 hover:scale-105 transition-all duration-300 group"
                     >
                       <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                     </Button>
@@ -325,7 +325,7 @@ export default function Footer() {
         </div>
 
         {/* Decorative Bottom Border */}
-        <div className="h-1 bg-gradient-to-r from-primary via-secondary to-olive rounded-full"></div>
+        <div className="h-1 bg-blue-600 rounded-full"></div>
       </div>
     </footer>
   )
