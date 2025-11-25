@@ -59,10 +59,18 @@ Example Request:
 Response (Success):
 
 {
-"message": "Login successful",
-"error": null,
-"token": "<JWT_TOKEN>"
+    "message": "Login successful",
+    "error": null,
+    "token": "<JWT_TOKEN>",
+    "user": {
+        "email": "admin@example.com",
+        "role": "ADMIN",
+        "companyName": "My Company",
+        "contactNumber": "1234567890",
+        "owner": "John Doe"
+    }
 }
+
 
 Response (Failure):
 

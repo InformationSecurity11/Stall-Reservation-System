@@ -29,6 +29,17 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginRespDTO> login(@Valid @RequestBody LoginReqDTO req) {
+//        LoginRespDTO response = authService.login(req);
+//
+//        if (response.getError() != null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+//        }
+//
+//        return ResponseEntity.ok(response);
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginRespDTO> login(@Valid @RequestBody LoginReqDTO req) {
         LoginRespDTO response = authService.login(req);
@@ -39,6 +50,7 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
