@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RegisterRespDTO {
     private String message;
-    private String email;
+    private String error;
 }

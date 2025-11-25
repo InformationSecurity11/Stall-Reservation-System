@@ -33,5 +33,8 @@ public class UserEntity {
     @Column(name = "contact_number")
     private String contactNumber;
 
+    @Column(name = "owner")
+    private  String owner;
+
 
 }
